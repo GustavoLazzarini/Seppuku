@@ -22,5 +22,13 @@ namespace Core.Controllers
         {
             _rbody.velocity = new(0, -_speed);
         }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+            if (collision.IsPlayer())
+            {
+                Player.Death();
+            }
+        }
     }
 }
