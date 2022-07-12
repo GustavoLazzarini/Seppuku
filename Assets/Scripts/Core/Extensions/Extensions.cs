@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 using URandom = UnityEngine.Random;
+using Core.Controllers;
 
 namespace Core
 {
@@ -187,6 +188,32 @@ namespace Core
         public static bool HasNull(params object[] objs)
         {
             return objs.Any(x => x == null);
+        }
+
+        public static void RegisterOnEnter(this CubeCollider[] colliders, Action onEnter)
+        {
+            foreach (CubeCollider c in colliders) c.OnEnter += onEnter;
+        }
+        public static void UnregisterOnEnter(this CubeCollider[] colliders, Action onEnter)
+        {
+            foreach (CubeCollider c in colliders) c.OnEnter -= onEnter;
+        }
+
+        public static void RegisterOnExit(this CubeCollider[] colliders, Action onEnter)
+        {
+            foreach (CubeCollider c in colliders) c.OnExit += onEnter;
+        }
+        public static void UnregisterOnExit(this CubeCollider[] colliders, Action onEnter)
+        {
+            foreach (CubeCollider c in colliders) c.OnExit -= onEnter;
+        }
+    
+        public static Vector3 MidPoint(this MonoBehaviour[] target)
+        {
+            Vector3 mid = target[0].transform.position;
+            for (int i = 1; i < target.Length; i++)
+                mid = (mid + target[i].transform.position) / 2;
+            return mid;
         }
     }
 }

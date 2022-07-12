@@ -31,6 +31,8 @@ namespace Core.Controllers
         public event Action OnEnter;
         public event Action OnExit;
 
+        public Vector3 Size => new(transform.lossyScale.x * _size.x, transform.lossyScale.y * _size.y, transform.lossyScale.z * _size.z);
+
         private void FixedUpdate()
         {
             if (_trackObject != null) InsideTrigger = InsideCollider(_trackObject.position);
@@ -74,16 +76,20 @@ namespace Core.Controllers
 
             Vector3 colCenter = transform.position + _offset;
             
-            p.x = Mathf.Clamp(pos.x, colCenter.x - (_size.x / 2), colCenter.x + (_size.x / 2));
-            p.y = Mathf.Clamp(pos.y, colCenter.y - (_size.y / 2), colCenter.y + (_size.y / 2));
-            p.z = Mathf.Clamp(pos.z, colCenter.z - (_size.z / 2), colCenter.z + (_size.z / 2));
+            p.x = Mathf.Clamp(pos.x, colCenter.x - (Size.x / 2) + 0.3f, colCenter.x + (Size.x / 2) - 0.3f);
+            p.y = Mathf.Clamp(pos.y, colCenter.y - (Size.y / 2) + 0.3f, colCenter.y + (Size.y / 2) - 0.3f);
+            p.z = Mathf.Clamp(pos.z, colCenter.z - (Size.z / 2) + 0.3f, colCenter.z + (Size.z / 2) - 0.3f);
+
+            Debug.Log($"{colCenter} {_size} {p}");
 
             return p;
         }
 
         public void OnDrawGizmosSelected()
         {
-            Gizmosf.DrawCubeWithBorder(transform.position + _offset, new Vector3(transform.lossyScale.x * _size.x, transform.lossyScale.y * _size.y, transform.lossyScale.z * _size.z), new Color(0, 1, 0, 0.13f), new Color(0, 1, 0, 1));
+            Gizmosf.DrawSphere((transform.position + _offset - (Size / 2)), 0.1f, Color.white);
+
+            Gizmosf.DrawCubeWithBorder(transform.position + _offset, Size, new Color(0, 1, 0, 0.13f), new Color(0, 1, 0, 1));
         }
     }
 }
