@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: c02251d66ff62274baf7b60163ca3575
+ModelImporter:
+  serializedVersion: 21202
+  internalIDToNameTable:
+  - first:
+      74: 8511626062095953922
+    second: Cube.007|Armature.001|Armature.001| Escalar|Armature.001| Escalar
+  - first:
+      74: -7446745058691970742
+    second: Cube.007|Door Open
+  - first:
+      74: -6408240095861614945
+    second: Cube.007|Door Open.001
+  - first:
+      74: 1050962416320604359
+    second: Cube.007|Dor Ala8
+  - first:
+      74: 6973179162506345583
+    second: Cube.007|Grade_Bamboo|Grade_Bamboo|Cylinder.017Action|Grade_Bamboo|Cylin
+  - first:
+      74: -8705782434668799494
+    second: Cube.007|Porta Alavanca
+  - first:
+      74: -702655726469683891
+    second: Cube.010|Armature.001|Armature.001| Escalar|Armature.001| Escalar
+  - first:
+      74: 9091474595455450912
+    second: Cube.010|Door Open
+  - first:
+      74: 3581610098522154693
+    second: Cube.010|Door Open.001
+  - first:
+      74: -7368400830188510212
+    second: Cube.010|Dor Ala8
+  - first:
+      74: 3647210291660727590
+    second: Cube.010|Grade_Bamboo|Grade_Bamboo|Cylinder.017Action|Grade_Bamboo|Cylin
+  - first:
+      74: -5794576353333581386
+    second: Cube.010|Porta Alavanca
+  - first:
+      74: -4754297578418092287
+    second: Cube.014|Armature.001|Armature.001| Escalar|Armature.001| Escalar
+  - first:
+      74: 1025855421432690630
+    second: Cube.014|Door Open
+  - first:
+      74: 7887403141586244237
+    second: Cube.014|Door Open.001
+  - first:
+      74: -321981253818478167
+    second: Cube.014|Dor Ala8
+  - first:
+      74: -5421222850247727142
+    second: Cube.014|Grade_Bamboo|Grade_Bamboo|Cylinder.017Action|Grade_Bamboo|Cylin
+  - first:
+      74: -5772698330734079735
+    second: Cube.014|Porta Alavanca
+  - first:
+      74: -7306523679905496260
+    second: Cube.015|Armature.001|Armature.001| Escalar|Armature.001| Escalar
+  - first:
+      74: -1163118853911609633
+    second: Cube.015|Door Open
+  - first:
+      74: -3096267363925930937
+    second: Cube.015|Door Open.001
+  - first:
+      74: 6303528506219082434
+    second: Cube.015|Dor Ala8
+  - first:
+      74: 3491631796641181234
+    second: Cube.015|Grade_Bamboo|Grade_Bamboo|Cylinder.017Action|Grade_Bamboo|Cylin
+  - first:
+      74: -6662024925043642274
+    second: Cube.015|Porta Alavanca
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
