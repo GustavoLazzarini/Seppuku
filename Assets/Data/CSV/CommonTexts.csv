@@ -1,0 +1,23 @@
+﻿Key,English(en),Portuguese(pt)
+"Menu_Play","Play","Jogar"
+"Menu_Options","Options","Opções"
+"Menu_Quit","Quit","Sair"
+"Options_ApplyBack","{Interact} Apply | {Back} Back","{Interact} Aplicar | {Back} Voltar"
+"Options_VolumeMaster","Master Volume","Volume Mestre"
+"Options_VolumeSongs","Songs","Músicas"
+"Options_VolumeSfxs","Sound Effects","Efeitos Sonoros"
+"Options_RenderScale","Render Scale","Escala de Renderização"
+"Options_Resolution","Resolution","Resolução"
+"Options_TextureQuality","Texture Quality","Qualidade das Texturas"
+"Options_Vsync","Vertical Synchronization","Sincronização Vertical"
+"Options_PostProcess","Post Process Effects","Efeitos de Pós-Processamento"
+"Options_Fullscreen","Fullscreen","Tela Cheia",,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,

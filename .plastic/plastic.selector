@@ -1,0 +1,3 @@
+rep "Seppuku_HDRP@GalactspaceStudios@cloud"
+  path "/"
+    smartbranch "/main"

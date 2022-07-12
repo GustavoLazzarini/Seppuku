@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c96af78ff13fafe44b82bd684c6f9635, type: 3}
+  m_Name: ButtonTextLinkSO
+  m_EditorClassIdentifier: 
+  _gameInputSo: {fileID: 11400000, guid: e4a86613c5f383f4d9bf521cb76f4915, type: 2}
+  _moveMousePc: \uE90f
+  _lStickXbox: \uE904
+  _lStickPs: \uE904
+  _rStickXbox: \uE90f
+  _rStickPs: \uE90f
+  _runPc: \uE902
+  _runXbox: \uE901
+  _runPs: \uE901
+  _jumpPc: \uE91c
+  _jumpXbox: \uE900
+  _jumpPs: \uE900
+  _movementPc: \uE904
+  _movementXbox: \uE904
+  _movementPs: \uE904
+  _menuPc: \uE91a
+  _menuXbox: \uE91a
+  _menuPs: \uE91a
+  _actionMenuPc: \uE903
+  _actionMenuXbox: \uE91b
+  _actionMenuPs: \uE91b
+  _interactPc: \uE91b
+  _interactXbox: \uE903
+  _interactPs: \uE903
+  _passDialogPc: \uE91b
+  _passDialogXbox: \uE903
+  _passDialogPs: \uE903
+  _btnInteractPc: \uE900
+  _btnInteractXbox: \uE903
+  _btnInteractPs: \uE903
+  _aimPc: \uE914
+  _aimXbox: \uE916
+  _aimPs: \uE916
+  _backPc: \uE91a
+  _backXbox: \uE901
+  _backPs: \uE901
+  _mAttackPc: \uE909
+  _mAttackXbox: \uE902
+  _mAttackPs: \uE902
+  _rAttackPc: \uE909
+  _rAttackXbox: \uE918
+  _rAttackPs: \uE918
+  _upPc: \uE905
+  _upXbox: \uE905
+  _upPs: \uE905
+  _downPc: \uE907
+  _downXbox: \uE907
+  _downPs: \uE907
+  _leftPc: \uE908
+  _leftXbox: \uE908
+  _leftPs: \uE908
+  _rightPc: \uE906
+  _rightXbox: \uE906
+  _rightPs: \uE906

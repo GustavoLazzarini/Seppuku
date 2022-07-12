@@ -1,0 +1,153 @@
+.main-slider {
+    justify-content: space-around;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    align-items: stretch;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10;
+    padding-bottom: 0;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    transition-property: all;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+    background-color: rgba(255, 255, 255, 0);
+    -unity-font-style: normal;
+}
+
+.main-slider:focus {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    flex-direction: column;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    transition-duration: 0.1s;
+}
+
+.main-slider > .unity-label {
+    color: rgba(255, 255, 255, 0.39);
+}
+
+.main-slider:focus > .unity-label {
+    color: rgb(255, 255, 255);
+}
+
+.main-slider > VisualElement > VisualElement > .unity-base-slider__tracker {
+    background-color: rgba(255, 255, 255, 0.39);
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    transition-duration: 0.1s;
+}
+
+.main-slider > VisualElement > VisualElement > .unity-base-slider__dragger {
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: rgb(185, 185, 185);
+    transition-duration: 0.1s;
+}
+
+.main-slider:focus > VisualElement > VisualElement > .unity-base-slider__dragger {
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: rgb(255, 255, 255);
+    transition-duration: 0.1s;
+}
+
+.main-slider > VisualElement > .unity-base-field > .unity-base-field__input {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    color: rgb(0, 0, 0);
+    font-size: 10px;
+    -unity-font-definition: none;
+    -unity-text-align: middle-center;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans.ttf?fileID=12800000&guid=e3265ab4bf004d28a9537516768c1c75&type=3#LiberationSans');
+    white-space: normal;
+    -unity-background-scale-mode: stretch-to-fill;
+    flex-direction: column;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.1s;
+}
+
+.main-slider > VisualElement > .unity-base-field {
+    position: relative;
+    width: 60px;
+    height: 20px;
+    -unity-font-definition: none;
+    -unity-font: url('project://database/Assets/Fonts/Unity/Unity_Font.asset?fileID=11400000&guid=1e357fb0a30ad254b8d887f1de81ddff&type=2#Unity_Font');
+    align-items: stretch;
+    justify-content: space-around;
+    font-size: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition-duration: 0.1s;
+}
+
+.main-slider > VisualElement > VisualElement > .unity-base-slider__fill {
+    background-color: rgba(200, 200, 200, 255);
+    transition-duration: 0.1s;
+}
+
+.main-slider:focus .unity-base-slider__fill {
+    background-color: rgba(255, 255, 255, 255);
+}

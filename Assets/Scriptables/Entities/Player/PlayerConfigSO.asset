@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c2fafc4da2d4c438c0398375daf1da, type: 3}
+  m_Name: PlayerConfigSO
+  m_EditorClassIdentifier: 
+  _impulseChannel: {fileID: 11400000, guid: cc044d8f7db51f24b8520daf2a8ce27a, type: 2}
+  _damagePlayerChannel: {fileID: 0}
+  _playerPosChannel: {fileID: 11400000, guid: b0424213846885a40994ecd631d37a91, type: 2}
+  _maxLife: 10
+  _damageAbsorsion: 1
+  _maxStamina: 100
+  _walkSpeed: 2
+  _climbSpeed: 1.7
+  _crouchSpeed: 2
+  _runSpeed: 6
+  _jumpSpeed: 10
+  _airSpeedMod: 1.5
+  _slideSpeedMod: 1.2
+  _dashSpeed: 10
+  _acelerationRate: 5
+  _deacelerationRate: 5
+  _crouchDeacelerationRate: 0.2

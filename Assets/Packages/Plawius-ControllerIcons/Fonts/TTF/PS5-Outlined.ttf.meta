@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 2c19aa8bd3730f2428a3b94bfd20a7d5
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - PS5-Outlined
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a1827089da6112343868d3655c7423d6, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

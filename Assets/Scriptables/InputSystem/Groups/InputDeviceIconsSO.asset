@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56d7b1f6f912bf4986942dbd8b2d196, type: 3}
+  m_Name: InputDeviceIconsSO
+  m_EditorClassIdentifier: 
+  _groupArray:
+  - {fileID: 11400000, guid: 1666019a42e555e47a0d9ee766dfe350, type: 2}
+  - {fileID: 11400000, guid: d712bebc9a75e0a4d8765c3625a5716e, type: 2}
+  - {fileID: 11400000, guid: ca5a0dbd886d13d48bc89e64d4e893d8, type: 2}

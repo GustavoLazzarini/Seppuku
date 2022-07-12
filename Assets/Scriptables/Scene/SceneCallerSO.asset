@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f80940e1942a114cafffffce6a53f4d, type: 3}
+  m_Name: SceneCallerSO
+  m_EditorClassIdentifier: 
+  _loadChannel: {fileID: 11400000, guid: f2ba2683e5842ad4a99350f538f8eab8, type: 2}
+  _loadProgressChannel: {fileID: 11400000, guid: 0d25216338fd1364ebaf2479f8db1328, type: 2}
+  _preLoadChannel: {fileID: 11400000, guid: 8df702de5a7f42942bf11e790b459a90, type: 2}
+  _activatePreloadChannel: {fileID: 11400000, guid: 0ff64536b9c301040bfdbdb8598bfa01, type: 2}

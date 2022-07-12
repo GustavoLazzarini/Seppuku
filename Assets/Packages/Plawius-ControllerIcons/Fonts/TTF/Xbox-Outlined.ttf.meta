@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: f90ab48a46951f446bfc88a865e94881
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - XBox-Outlined
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 145930b1257b1af47945e8950606b2f7, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,22 @@
+.title-text {
+    margin-top: 0;
+    color: rgba(255, 255, 255, 255);
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.subtitle-text {
+    margin-top: 20px;
+    color: rgba(200, 200, 200, 255);
+}
+
+.holder {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+}

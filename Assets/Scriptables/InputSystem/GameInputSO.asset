@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb2a219ba7e41cb4db51f42b433d6505, type: 3}
+  m_Name: GameInputSO
+  m_EditorClassIdentifier: 
+  _buttonLink: {fileID: 11400000, guid: d2a9626838edd2b4fb9d417782944ffe, type: 2}
+  _inputDeviceIcons: {fileID: 11400000, guid: bdb2c88ded8aef84d8f74fe7a03c3c66, type: 2}
+  _inputDeviceChannel: {fileID: 11400000, guid: ff477a9f96d278041932ae4c909228a4,
+    type: 2}
+  _mDeltaChannel: {fileID: 11400000, guid: f6b9d6ee4bfd27a4aa66f3785b2dfd80, type: 2}
+  _mPositionChannel: {fileID: 11400000, guid: 43c8efb094459ca419aa33b65a9760ea, type: 2}
+  _lStickChannel: {fileID: 11400000, guid: e2374afbddb437244b519feda14e3c31, type: 2}
+  _rStickChannel: {fileID: 11400000, guid: 891c42dc006978f48bcd94b8b6536a79, type: 2}
+  _runChannel: {fileID: 11400000, guid: 4fad95b64fb36184e8d8d6e69b7bc81f, type: 2}
+  _jumpChannel: {fileID: 11400000, guid: c9842f2981bed914fbc1a863de84773c, type: 2}
+  _crouchChannel: {fileID: 11400000, guid: 62dccefca0512954da0a05b802ae0278, type: 2}
+  _dashChannel: {fileID: 11400000, guid: ca37f7c2e5da0114b86414f8c06c95b8, type: 2}
+  _movementChannel: {fileID: 11400000, guid: 07efd36cedb876c4fa65bbc1210bf60a, type: 2}
+  _backChannel: {fileID: 11400000, guid: d619de99f6f59364881bc18408367098, type: 2}
+  _menuChannel: {fileID: 11400000, guid: c16887dece72a194e95d3f86883089eb, type: 2}
+  _actionMenuChannel: {fileID: 11400000, guid: 9d7d628b460a46643a60caaac34db56d, type: 2}
+  _interactChannel: {fileID: 11400000, guid: 9993599573f6fc34d862f94f1f7c12df, type: 2}
+  _passDialogChannel: {fileID: 11400000, guid: 4b41e1856890ef541ad6a2d007e4f40a, type: 2}
+  _btnInteractChannel: {fileID: 11400000, guid: ac7ec14b596e9af4b800ec38817f74c5,
+    type: 2}
+  _aimChannel: {fileID: 11400000, guid: af08a99326c022f42b2cc23700025f49, type: 2}
+  _mAttackChannel: {fileID: 11400000, guid: 51467f8d78f2c2c499fe05da31e457e7, type: 2}
+  _rAttackChannel: {fileID: 11400000, guid: 350c6d645441a644fbed983a8c9d0398, type: 2}
+  _upChannel: {fileID: 11400000, guid: 5cbd5a1e82335834c8222582ca8f64f4, type: 2}
+  _downChannel: {fileID: 11400000, guid: 86af2d3757a8f6842be17192eb992416, type: 2}
+  _leftChannel: {fileID: 11400000, guid: 1d531df082565a94aaafd8bac57d3d5d, type: 2}
+  _rightChannel: {fileID: 11400000, guid: 1a24faf681adcd548945ad39a780839f, type: 2}
+  _constantUpChannel: {fileID: 11400000, guid: f16779893a07b5244bfd334d5350b9e2, type: 2}
+  _constantDownChannel: {fileID: 11400000, guid: 3aa492d98d420a342b5d3d3a8d53cc94,
+    type: 2}
+  _constantLeftChannel: {fileID: 11400000, guid: ed356e939bd077548b81f56920e8229d,
+    type: 2}
+  _constantRightChannel: {fileID: 11400000, guid: 2c8089cae3e35f9469b419053fabddd1,
+    type: 2}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8bebd5fbbe58f4496973abe80427f2, type: 3}
+  m_Name: ControllerIconsSO
+  m_EditorClassIdentifier: 
+  mainFont: {fileID: 11400000, guid: 1e357fb0a30ad254b8d887f1de81ddff, type: 2}
+  activeFont: {fileID: 11400000, guid: 37942406ed7de8f48b77e2ea51e716be, type: 2}
+  pcFont: {fileID: 11400000, guid: 37942406ed7de8f48b77e2ea51e716be, type: 2}
+  xboxFont: {fileID: 11400000, guid: dda422a218168c14eb1325ed34fe25fc, type: 2}
+  playstationFont: {fileID: 11400000, guid: c0fa3a7f35d15c541b840d9fee7221ee, type: 2}

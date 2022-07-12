@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11cdf3d6cfc3a7248a6388aeba39f26e, type: 3}
+  m_Name: SettingsSO
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: ad6127c0690df8e40aec589bccd06c37, type: 2}
+  postProcessChannel: {fileID: 11400000, guid: e252a9ecd80bd2a408f660bf1b793a37, type: 2}
+  _speakerMode: 2
+  _masterVolume: 0
+  _musicVolume: 0
+  _sfxVolume: 0
+  _vSync: 1
+  _resolution: -1
+  _renderScale: 1
+  _fullscreen: 1
+  _postProcess: 1
+  _antiAliasing: 1
+  _textureQuality: 0

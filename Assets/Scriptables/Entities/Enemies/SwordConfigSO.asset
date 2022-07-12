@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d15c2c1cbb78f9428c85173011f8987, type: 3}
+  m_Name: SwordConfigSO
+  m_EditorClassIdentifier: 
+  _impulseChannel: {fileID: 0}
+  _damagePlayerChannel: {fileID: 0}
+  _playerPosChannel: {fileID: 0}
+  _maxLife: 100
+  _damageAbsorsion: 1
+  _maxStamina: 100
+  _walkSpeed: 2
+  _climbSpeed: 5
+  _crouchSpeed: 1.5
+  _runSpeed: 3
+  _jumpSpeed: 5
+  _airSpeedMod: 1.1
+  _slideSpeedMod: 1.1
+  _dashSpeed: 5
+  _acelerationRate: 0
+  _deacelerationRate: 0
+  _crouchDeacelerationRate: 0
+  _relaxTime: 2
+  _pathUpdateRate: 0.5
+  _waypointDistance: 1
+  _stopWalkDistance: 0.68
+  _shootDistance: 0
+  _collisionDamage: 10
+  _collisionDistance: 1.07
+  _collisionOffset: {x: 0, y: 0.85, z: 0.86}
+  _reactionSpace: 0
+  _angryReactionSpace: 0

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 685dfda7b6bdf4b40ae6fd879f156459, type: 3}
+  m_Name: CursorCallerSO
+  m_EditorClassIdentifier: 
+  _textureChannel: {fileID: 11400000, guid: d1a1b4a51b0fe39498e73dae95472c9a, type: 2}
+  _visibilityChannel: {fileID: 11400000, guid: 596980e1a2ebd004b9a51e801b9ae57e, type: 2}
+  _lockModeChannel: {fileID: 11400000, guid: 32d0a9da5569f364186ba464c67d36f1, type: 2}
+  _overHideChannel: {fileID: 11400000, guid: 2c8685ad8c29ded4988f48e2e3b81dee, type: 2}
+  _normal: {fileID: 0}
+  _down: {fileID: 0}
+  _hand: {fileID: 0}
+  _write: {fileID: 0}

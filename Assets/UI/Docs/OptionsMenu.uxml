@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/ButtonUSS.uss?fileID=7433441132597879392&amp;guid=16fa20f221d709b4ebd2a60a1662fc95&amp;type=3#ButtonUSS" />
+    <Style src="project://database/Assets/UI/USS/SliderUSS.uss?fileID=7433441132597879392&amp;guid=feceace46eabfab4db72b532475c7fa3&amp;type=3#SliderUSS" />
+    <Style src="project://database/Assets/UI/USS/ToggleUSS.uss?fileID=7433441132597879392&amp;guid=772563d8eeb5c23479079508970a30ac&amp;type=3#ToggleUSS" />
+    <Style src="project://database/Assets/UI/USS/ScrollerUSS.uss?fileID=7433441132597879392&amp;guid=e72dfce59f580c649be25f8c7a3bbd2f&amp;type=3#ScrollerUSS" />
+    <ui:VisualElement name="Root" style="flex-grow: 1; justify-content: center; align-items: center; -unity-font-definition: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/LiberationSans%20SDF.asset?fileID=11400000&amp;guid=d8ac5aea102ab33498605379538269dc&amp;type=2#LiberationSans SDF&apos;);">
+        <ui:ScrollView name="SettingsScrollView" focusable="false" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto" touch-scroll-type="Elastic" elasticity="0" class="main-scrollview" style="width: 500px; height: 600px; background-color: rgba(255, 255, 255, 0.2); border-top-left-radius: 15px; border-bottom-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; justify-content: center; align-items: center; -unity-text-align: middle-center; flex-direction: column; flex-wrap: nowrap; flex-shrink: 1; max-width: none; max-height: none;">
+            <ui:VisualElement name="Holder" style="flex-grow: 1; justify-content: center; align-items: center; flex-direction: column; width: auto; height: auto; -unity-font-definition: none; font-size: 20px; color: rgb(255, 255, 255); translate: 0 0;">
+                <Core.UIElements.UISlider value="0" high-value="0" low-value="-80" name="MasterVolume" label="MASTER" down="MusicVolume" class="main-slider" style="flex-grow: 0; width: 400px; height: 100px; margin-top: 20px; color: rgb(255, 255, 255);" />
+                <Core.UIElements.UISlider value="0" high-value="0" low-value="-80" name="MusicVolume" label="MUSIC" up="MasterVolume" down="SfxVolume" class="main-slider" style="flex-grow: 0; width: 400px; height: 100px;" />
+                <Core.UIElements.UISlider value="0" high-value="0" low-value="-80" name="SfxVolume" label="SOUND EFFECTS" up="MusicVolume" down="Resolution" class="main-slider" style="flex-grow: 0; width: 400px; height: 100px;" />
+                <Core.UIElements.UISliderInt value="0" high-value="1" low-value="0" name="Resolution" label="RESOLUTION" up="SfxVolume" down="TextureQuality" class="main-slider" style="flex-grow: 0; width: 400px; height: 100px;" />
+                <Core.UIElements.UISliderInt value="0" high-value="0" low-value="-3" name="TextureQuality" label="TEXTURE QUALITY" up="Resolution" down="VSync" subdivisions="3" class="main-slider" style="flex-grow: 0; width: 400px; height: 100px;" />
+                <Core.UIElements.UIToggle name="VSync" label="VERTICAL SYNCHRONIZATION" value="false" up="TextureQuality" down="PostProcess" class="main-toggle" style="width: 400px; height: 100px;" />
+                <Core.UIElements.UIToggle name="PostProcess" label="POST PROCESS" up="VSync" down="Fullscreen" class="main-toggle" style="width: 400px; height: 100px;" />
+                <Core.UIElements.UIToggle name="Fullscreen" label="FULLSCREEN" up="PostProcess" class="main-toggle" style="width: 400px; height: 100px; margin-bottom: 20px;" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <Core.UIElements.UILabel text="\ue900 Apply | \ue901 Back" name="ApplyBack" style="-unity-font-definition: url(&apos;project://database/Assets/Fonts/Unity/Unity_Font.asset?fileID=11400000&amp;guid=1e357fb0a30ad254b8d887f1de81ddff&amp;type=2#Unity_Font&apos;); font-size: 30px; margin-top: 20px; color: rgb(255, 255, 255);" />
+    </ui:VisualElement>
+</ui:UXML>

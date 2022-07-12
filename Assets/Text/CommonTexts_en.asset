@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: CommonTexts_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 119ef8c16678be64d86fb385bd5436bf, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 40453648384
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40499785728
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980032
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980033
+    m_Localized: '{Interact} Apply | {Back} Back'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980034
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980035
+    m_Localized: Songs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980036
+    m_Localized: Sound Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980037
+    m_Localized: Render Scale
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980038
+    m_Localized: Resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40503980039
+    m_Localized: Texture Quality
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40508174336
+    m_Localized: Vertical Synchronization
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40508174337
+    m_Localized: Post Process Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40508174338
+    m_Localized: Fullscreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24103617132343296
+    m_Localized: press E to interact
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

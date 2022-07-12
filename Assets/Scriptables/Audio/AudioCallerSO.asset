@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce4460bd247eb3242a0829a29be75503, type: 3}
+  m_Name: AudioCallerSO
+  m_EditorClassIdentifier: 
+  _playAudioChannel: {fileID: 11400000, guid: 72964d45c5130fc42b5eebddc05c990e, type: 2}
+  _setConfigChannel: {fileID: 11400000, guid: 64d60b079b6426e45bfe12a16a40aacb, type: 2}
+  _setMixerGroupChannel: {fileID: 11400000, guid: 837f0e3415eebc7428505680619a686e, type: 2}
+  _stopAllChannel: {fileID: 11400000, guid: 5d4defbadb9727346981b337b243a2fe, type: 2}
+  _stopClipChannel: {fileID: 11400000, guid: c5eebc9cbb1020e4cb5a653b10ade9ed, type: 2}

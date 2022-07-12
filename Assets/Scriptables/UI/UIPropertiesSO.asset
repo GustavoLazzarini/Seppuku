@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7347da8ffeb65b641bf7a845401c3b42, type: 3}
+  m_Name: UIPropertiesSO
+  m_EditorClassIdentifier: 
+  _linker: {fileID: 11400000, guid: d2a9626838edd2b4fb9d417782944ffe, type: 2}
+  _controllerIcons: {fileID: 11400000, guid: bdb2c88ded8aef84d8f74fe7a03c3c66, type: 2}

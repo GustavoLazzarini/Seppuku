@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/ButtonUSS.uss?fileID=7433441132597879392&amp;guid=16fa20f221d709b4ebd2a60a1662fc95&amp;type=3#ButtonUSS" />
+    <ui:VisualElement name="Root" style="flex-grow: 1; justify-content: center; align-items: center;">
+        <ui:VisualElement name="Logo" style="width: 384px; height: 216px; top: 0; background-color: rgb(255, 255, 255); border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px;" />
+        <ui:VisualElement name="Buttons" style="align-items: center; justify-content: center; width: 300px; height: 300px;">
+            <Core.UIElements.UIButton name="StartButton" text="START" down="OptionsButton" class="main-button" style="-unity-font: none; -unity-font-definition: url(&apos;project://database/Assets/Fonts/Unity/Unity_Font.asset?fileID=11400000&amp;guid=1e357fb0a30ad254b8d887f1de81ddff&amp;type=2#Unity_Font&apos;);" />
+            <Core.UIElements.UIButton name="OptionsButton" text="OPTIONS" up="StartButton" down="QuitButton" class="main-button" style="-unity-font: none; -unity-font-definition: url(&apos;project://database/Assets/Fonts/Unity/Unity_Font.asset?fileID=11400000&amp;guid=1e357fb0a30ad254b8d887f1de81ddff&amp;type=2#Unity_Font&apos;);" />
+            <Core.UIElements.UIButton name="QuitButton" text="QUIT" up="OptionsButton" class="main-button" style="-unity-font: none; -unity-font-definition: url(&apos;project://database/Assets/Fonts/Unity/Unity_Font.asset?fileID=11400000&amp;guid=1e357fb0a30ad254b8d887f1de81ddff&amp;type=2#Unity_Font&apos;);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

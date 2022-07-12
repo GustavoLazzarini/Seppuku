@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Holder" style="width: 353px; height: 77px; background-color: rgba(0, 0, 0, 0.78); border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; align-items: center; justify-content: center; margin-left: auto; margin-right: auto; flex-direction: column; margin-top: auto; margin-bottom: 101px;">
+        <ui:VisualElement name="backgroundArea" style="height: 10px; width: 300px; background-color: rgba(255, 255, 255, 0.14); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0;" />
+        <ui:VisualElement name="greenArea" style="height: 19px; width: 1px; background-color: rgb(85, 217, 108); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; position: absolute; transition-duration: 0.1s; scale: 3 1;" />
+        <ui:VisualElement name="stick" style="height: 27px; width: 1px; background-color: rgb(255, 255, 255); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; position: absolute; translate: 0 0; scale: 5 1;" />
+    </ui:VisualElement>
+</ui:UXML>

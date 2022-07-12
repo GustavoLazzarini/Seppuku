@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5092668862845409143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5092668862845409136}
+  - component: {fileID: 5092668862845409137}
+  - component: {fileID: 4107838965396622598}
+  m_Layer: 0
+  m_Name: OptionsMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5092668862845409136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092668862845409143}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5092668862845409137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092668862845409143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 42e250028ba5fa84fb03b04042fec95c, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 0220c491d6045f24c92be039cf2d18a1, type: 3}
+  m_SortingOrder: 1
+--- !u!114 &4107838965396622598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092668862845409143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6ce183057229754ca48069b971d8e15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  document: {fileID: 5092668862845409137}
+  gameInput: {fileID: 11400000, guid: e4a86613c5f383f4d9bf521cb76f4915, type: 2}
+  fistSelected: MasterVolume
+  scrollView: SettingsScrollView
+  scrollSpeed: 400
+  queryElements:
+  - elementName: MasterVolume
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40503980034
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 2
+  - elementName: MusicVolume
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40503980035
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 2
+  - elementName: SfxVolume
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40503980036
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 2
+  - elementName: RenderScale
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40503980037
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 2
+  - elementName: Resolution
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40503980038
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 3
+  - elementName: TextureQuality
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40503980039
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 3
+  - elementName: VSync
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40508174336
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 4
+  - elementName: PostProcess
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40508174337
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 4
+  - elementName: Fullscreen
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40508174338
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 4
+  - elementName: ApplyBack
+    elementText:
+      m_TableReference:
+        m_TableCollectionName: GUID:119ef8c16678be64d86fb385bd5436bf
+      m_TableEntryReference:
+        m_KeyId: 40503980033
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+    elementType: 1
+  settings: {fileID: 11400000, guid: fdd64d249a1c3824eb809bf7d8a2fd0c, type: 2}
+  menuChannel: {fileID: 11400000, guid: 9cffb118d3fff8b4daff9a7a2a0c02b2, type: 2}
+  saveChannel: {fileID: 11400000, guid: 70875c15168c2c24397137a5ebee3bca, type: 2}
+  references:
+    version: 2
+    RefIds: []
