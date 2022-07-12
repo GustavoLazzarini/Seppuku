@@ -1652,6 +1652,8 @@ MonoBehaviour:
   _onDeath:
     m_PersistentCalls:
       m_Calls: []
+  _lookUseMatrix: 0
+  _lookOffset: {x: 0, y: 0, z: 0}
 --- !u!136 &816193849481078378
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3979,6 +3981,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LongVision
+      objectReference: {fileID: 0}
+    - target: {fileID: 1643338744399796068, guid: 8f03602af9078164785ca49effa426f4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1643338744399796069, guid: 8f03602af9078164785ca49effa426f4,
         type: 3}
