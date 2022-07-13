@@ -26,9 +26,7 @@ namespace Core.Controllers
         public void OnCollisionEnter(Collision collision)
         {
             if (collision.IsPlayer())
-            {
                 Player.Death();
-            }
         }
     }
 }

@@ -16,12 +16,12 @@ namespace Core.Entities
 
         private void OnEnable()
         {
-            _ai.PathCompleted += LookDown;
+            _ai.PathCompleted += NextPoint;
         }
 
         private void OnDisable()
         {            
-            _ai.PathCompleted -= LookDown;
+            _ai.PathCompleted -= NextPoint;
         }
 
         protected override void FixedUpdate()
@@ -34,13 +34,16 @@ namespace Core.Entities
             throw new System.NotImplementedException();
         }
 
-        private void LookDown()
+        private void NextPoint()
         {
             int lastWalk = _walkIndex;
             Vector3 enterPos = transform.position;
 
             _walkIndex++;
             if (_walkIndex >= _walkPositions.Length) _walkIndex = 0;
+
+            if (_walkPositions[_walkIndex].LookDown)
+
 
             Routinef.Cooldown(x =>
             {
@@ -57,7 +60,7 @@ namespace Core.Entities
                     _ => throw new System.Exception("Look offset is strange")
                 };
 
-                if (x) LerpToMove(_walkPositions[lastWalk]);
+                if (x) LerpToMove(_walkPositions[lastWalk].Position);
                 else LerpTo(LookPosition);
 
                 SetEuler(new Vector3(0, !x ? lookAngle : RightAngle, 0));
@@ -70,7 +73,7 @@ namespace Core.Entities
             if (_freeWalk)
                 return new(Random.Range(_moveRect.min.x, _moveRect.max.x), transform.position.y, transform.position.z);
 
-            Vector3 pos = _walkPositions[_walkIndex];
+            Vector3 pos = _walkPositions[_walkIndex].Position;
 
             /*
             Vector3 relativePos = RightAngle switch

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5987245718156149236}
   - component: {fileID: 5987245718156149238}
   - component: {fileID: 3940211732680046027}
+  - component: {fileID: 7709280204278402213}
   m_Layer: 0
   m_Name: Spike
   m_TagString: Untagged
@@ -111,3 +112,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 15
+--- !u!114 &7709280204278402213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5987245718156149240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46166969d86570d42b7ae5840660aaac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _autoMove: 0
+  _betweenDelay: 0
+  _speed: 0.05
+  _positions: []
+  _next: 0
+  _first: 0
+  _last: 0

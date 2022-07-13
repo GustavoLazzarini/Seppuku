@@ -141,6 +141,11 @@ namespace Core.Entities
 
         protected virtual void FixedUpdate()
         {
+            Collider[] cols = Physics.OverlapSphere(transform.position, 0.2f, LayerMask.GetMask("Movable"));
+            if (cols.Length > 0)
+            {
+                ERigidbody.position += cols[0].GetComponentInParent<Movable>().Delta;
+            }
             Movement()?.Invoke();
         }
 

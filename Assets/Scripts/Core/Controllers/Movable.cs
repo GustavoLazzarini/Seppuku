@@ -12,6 +12,8 @@ namespace Core.Controllers
 
         private int _index = 0;
 
+        public Vector3 Delta;
+
         [SerializeField] private bool _autoMove;
         [SerializeField] private float _betweenDelay;
 
@@ -85,7 +87,9 @@ namespace Core.Controllers
             Vector3 delta = _words[_index] - transform.position;
             
             if (_autoMove && delta.magnitude < 0.2f) Next();
-            transform.position += delta.normalized * _speed * Mathf.Clamp01(Mathf.Pow(delta.magnitude, 0.5f));
+
+            Delta = delta.normalized * _speed * Mathf.Clamp01(Mathf.Pow(delta.magnitude, 0.5f));
+            transform.position += Delta;
         }
 
         private void OnDrawGizmosSelected()

@@ -10,6 +10,21 @@ namespace Core.Entities
 {
     public abstract class Enemy : Entity
     {
+        [System.Serializable]
+        protected struct MovePoint
+        {
+            public bool Relax;
+            public bool LookDown;
+            public Vector3 Position;
+
+            public MovePoint(bool relax, bool lookDown, Vector3 position)
+            {
+                Relax = relax;
+                LookDown = lookDown;
+                Position = position;
+            }
+        }
+
         protected EntityPathfinder _ai;
         protected List<EnemyVision> _visions = new();
         protected Collider _entityCollider;
@@ -27,7 +42,7 @@ namespace Core.Entities
         [SerializeField] protected Bounds _moveRect;
 
         [Space]
-        [SerializeField] protected Vector3[] _walkPositions;
+        [SerializeField] protected MovePoint[] _walkPositions;
 
         [Space]
         [SerializeField] protected UnityEvent _onDeath;
@@ -143,12 +158,12 @@ namespace Core.Entities
             if (_freeWalk) 
                 return new(Random.Range(_moveRect.min.x, _moveRect.max.x), transform.position.y, transform.position.z);
 
-            Vector3 pos = _walkPositions[_walkIndex];
+            Vector3 pos = _walkPositions[_walkIndex].Position;
             if (Vector3.Distance(transform.position, pos) <= EnemyConfig.StopWalkDistance + 0.5f)
             {
                 _walkIndex++;
                 if (_walkIndex >= _walkPositions.Length) _walkIndex = 0;
-                pos = _walkPositions[_walkIndex];
+                pos = _walkPositions[_walkIndex].Position;
             }
 
             return pos;
@@ -182,8 +197,8 @@ namespace Core.Entities
 
             for (int i = 0; i < _walkPositions.Length; i++)
             {
-                Gizmosf.DrawSphere(_walkPositions[i], 0.1f, new Color(0, 0.5f, 0.5f, 1));
-                if (i > 0) Gizmosf.DrawLine(_walkPositions[i - 1], _walkPositions[i], new Color(0, 0.5f, 0.5f), 2);
+                Gizmosf.DrawSphere(_walkPositions[i].Position, 0.1f, new Color(0, 0.5f, 0.5f, 1));
+                if (i > 0) Gizmosf.DrawLine(_walkPositions[i - 1].Position, _walkPositions[i].Position, new Color(0, 0.5f, 0.5f), 2);
             }
 
             if (_walkPositions.Length > 0) return;
