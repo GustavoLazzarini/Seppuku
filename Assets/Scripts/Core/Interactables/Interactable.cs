@@ -35,7 +35,7 @@ namespace Core.Interactables
 
         protected void ShowPopup()
         {
-            if (_popupOnScreen) return;
+            if (_popupOnScreen || string.IsNullOrWhiteSpace(_popupText.TableReference)) return;
 
             PopupMan.ShowInfoPopup(_popupText);
             _popupOnScreen = true;

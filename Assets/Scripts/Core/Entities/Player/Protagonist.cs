@@ -49,7 +49,17 @@ namespace Core.Entities
         private Vector2 _tMoveVector;
         private float _acelerationTimer;
 
-        public event Func<bool> OnJump = delegate { return true; };
+        private event Func<bool> OnJump = delegate { return true; };
+        public void RegisterJump(Func<bool> function)
+        {
+            Debug.Log("jump registered");
+            OnJump += function;
+        }
+        public void UnregisterJump(Func<bool> function)
+        {
+            Debug.Log("jump unregistered");
+            OnJump -= function;
+        }
 
         private void Set_Anim_IsCrouching(bool value) => _entityAnimator.SetBool("IsCrouching", value);
         private void Set_Anim_Hideout(bool value)
@@ -581,6 +591,12 @@ namespace Core.Entities
                 _entityRigidbody.velocity = new Vector3(_entityRigidbody.velocity.x, configuration.JumpSpeed);
                 Routinef.Invoke(IsGroundCheck, 0.01f, this);
             }
+        }
+
+        public void StairJump()
+        {
+            if (CurrentStair == null) return;
+            CurrentStair.JumpInside();
         }
 
         private void IsGroundCheck()

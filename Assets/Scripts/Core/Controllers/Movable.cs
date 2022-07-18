@@ -82,13 +82,17 @@ namespace Core.Controllers
 
         private void FixedUpdate()
         {
-            if (_index < 0) return;
+            if (_index < 0)
+            {
+                Delta = Vector3.zero;
+                return;
+            }
 
             Vector3 delta = _words[_index] - transform.position;
             
             if (_autoMove && delta.magnitude < 0.2f) Next();
 
-            Delta = delta.normalized * _speed * Mathf.Clamp01(Mathf.Pow(delta.magnitude, 0.5f));
+            Delta = _speed * Mathf.Clamp01(Mathf.Pow(delta.magnitude, 0.5f)) * delta.normalized;
             transform.position += Delta;
         }
 

@@ -20,6 +20,7 @@ namespace Core.Controllers
 
         [Space]
         [SerializeField] private Vector3 _hideoutPosition;
+        [SerializeField] private float _hideAngle;
 
         protected override void OnEnable()
         {
@@ -39,26 +40,14 @@ namespace Core.Controllers
             _player = FindObjectOfType<Protagonist>();
         }
 
-        protected override void Interact()
-        {
-            _player.SwitchMoveStage(MoveStage.Walking, MoveStage.Freezing);
-
-            if (_player.EntityMoveStage == MoveStage.Freezing) 
-            {
-                Hide();
-                return;
-            }
-
-            Unhide();
-        }
-
         private void Hide()
         {
             if (!InsideAnyCollider() || (!_multiple && _hasInteracted) || _insideHideout) return;
 
             _insideHideout = true;
             _enterPos = _player.transform.position;
-            _player.LerpTo(transform.position + _hideoutPosition, new Vector3(0, 180, 0));
+            _player.SetMoveStage(MoveStage.Freezing);
+            _player.LerpTo(transform.position + _hideoutPosition, new Vector3(0, _hideAngle, 0));
         }
 
         private void Unhide()
@@ -66,6 +55,7 @@ namespace Core.Controllers
             if (!InsideAnyCollider() || (!_multiple && _hasInteracted) || !_insideHideout) return;
 
             _insideHideout = false;
+            _player.SetMoveStage(MoveStage.Walking);
             _player.LerpTo(new Vector3(transform.position.x, _enterPos.y, _enterPos.z), new Vector3(0, 90, 0));
         }
 

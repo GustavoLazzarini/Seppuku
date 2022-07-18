@@ -80,8 +80,15 @@ namespace Core.Interactables
         {
             SetActive(true, Player.transform.position.y > _areaColliders.MidPoint().y);
             return false;
+        }
 
-            //if (_moveVector.magnitude <= 0.2f) SetActive(false);
+        public void JumpInside()
+        {
+            SetActive(false);
+
+            Vector3 impulse = new();
+            if (Mathf.Abs(_moveVector.x) > 0.2f) impulse.x = _moveVector.x;
+            if (Mathf.Abs(_moveVector.y) > 0.2f) impulse.y = _moveVector.y;
         }
 
         public void SetMoveVector(Vector2 value) => _moveVector = value;
@@ -98,6 +105,7 @@ namespace Core.Interactables
 
         public void SetActive(bool value, bool up = false)
         {
+            bool _insideAnyArea = _areaColliders.ContainsPoint(Player.transform.position);
             if (value == Active) return;
 
             if (!value)
@@ -135,9 +143,7 @@ namespace Core.Interactables
             _enterTime = Time.unscaledTime + 2;
 
             Vector3 p = NearestArea().ClosestInside(up ? _protagonist.UpStair : _protagonist.DownStair);
-            if (up) p.y -= (Player.transform.position.y - p.y);
-            
-            Debug.Log(up);
+            if (up) p.y -= (Player.UpStair.y - Player.transform.position.y);
             
             Vector3 euler = _protagonist.transform.localEulerAngles;
 
@@ -158,12 +164,10 @@ namespace Core.Interactables
                     break;
             }
 
-            _protagonist.CurrentStair = this;
-
-            Debug.Log($"{_areaColliders[0].ClosestInside(p)} - {p}");
             _protagonist.LerpTo(_areaColliders[0].ClosestInside(p), euler, 5, () =>
             {
                 _protagonist.ERigidbody.useGravity = false;
+                _protagonist.CurrentStair = this;
             });
 
             _protagonist.SetMoveStage(MoveStage.Climbing);
@@ -202,6 +206,14 @@ namespace Core.Interactables
                 SetMoveVector(_protagonist.MoveVector);
                 return;
             }
+
+            bool _insideAnyArea = _areaColliders.ContainsPoint(Player.transform.position);
+
+            if (_insideAnyArea && !Player.IsGrounded)
+            {
+                SetActive(true);
+                return;
+            }
         }
 
         private void DisableWalk(Vector3 moveVec)
@@ -222,9 +234,9 @@ namespace Core.Interactables
                     return;
                 }
 
-                Player.OnJump += Jump;
+                Player.RegisterJump(Jump);
             }
-            else Player.OnJump -= Jump;
+            else Player.UnregisterJump(Jump);
         }
 
         private CubeCollider NearestArea()

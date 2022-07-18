@@ -281,7 +281,7 @@ namespace Core.Entities
 
         protected virtual void FreezeMove()
         {
-            _entityRigidbody.position = Vector3.Lerp(_entityRigidbody.position, _freezePosition, Time.fixedDeltaTime * 3);
+            //_entityRigidbody.position = Vector3.Lerp(_entityRigidbody.position, _freezePosition, Time.fixedDeltaTime * 3);
         }
 
         //protected virtual void ClimbMove()

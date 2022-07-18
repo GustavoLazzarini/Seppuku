@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b25ef51736cb5844b5b650ffa47a5d7, type: 3}
   m_Name: CinemachineCamChannelSO
   m_EditorClassIdentifier: 
-  _log: 1
+  _log: 0
   _baked: {fileID: 0}

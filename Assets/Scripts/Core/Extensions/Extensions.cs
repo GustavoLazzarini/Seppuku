@@ -215,5 +215,15 @@ namespace Core
                 mid = (mid + target[i].transform.position) / 2;
             return mid;
         }
+
+        public static bool ContainsPoint(this CubeCollider[] target, Vector3 point)
+        {
+            for (int i = 0; i < target.Length; i++)
+            {
+                if (target[i].InsideCollider(point)) return true;
+            }
+
+            return false;
+        }
     }
 }

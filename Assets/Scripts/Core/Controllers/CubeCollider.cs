@@ -1,5 +1,6 @@
 //Copyright Galactspace Studio
 
+using Core.Entities;
 using System;
 using UnityEngine;
 
@@ -32,6 +33,13 @@ namespace Core.Controllers
         public event Action OnExit;
 
         public Vector3 Size => new(transform.lossyScale.x * _size.x, transform.lossyScale.y * _size.y, transform.lossyScale.z * _size.z);
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_trackObject == null) _trackObject = FindObjectOfType<Protagonist>().transform;
+        }
+#endif
 
         private void FixedUpdate()
         {
@@ -79,8 +87,6 @@ namespace Core.Controllers
             p.x = Mathf.Clamp(pos.x, colCenter.x - (Size.x / 2) + 0.3f, colCenter.x + (Size.x / 2) - 0.3f);
             p.y = Mathf.Clamp(pos.y, colCenter.y - (Size.y / 2) + 0.3f, colCenter.y + (Size.y / 2) - 0.3f);
             p.z = Mathf.Clamp(pos.z, colCenter.z - (Size.z / 2) + 0.3f, colCenter.z + (Size.z / 2) - 0.3f);
-
-            Debug.Log($"{colCenter} {_size} {p}");
 
             return p;
         }
