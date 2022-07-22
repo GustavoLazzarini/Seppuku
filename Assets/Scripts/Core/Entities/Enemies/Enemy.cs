@@ -47,12 +47,12 @@ namespace Core.Entities
         [Space]
         [SerializeField] protected UnityEvent _onDeath;
 
-        protected EnemyConfigurationSo EnemyConfig => (EnemyConfigurationSo)configuration;
+        protected EnemyConfigurationSo EnemyConfig => (EnemyConfigurationSo)_config;
 
         public void RegisterVision(EnemyVision vision) => _visions.Add(vision);
         public void UnregisterVision(EnemyVision vision) => _visions.Remove(vision);
 
-        public void TriggerDeathAnimation() => _entityAnimator.SetTrigger("Death");
+        public void TriggerDeathAnimation() => EAnimator.SetTrigger("Death");
 
         private void OnValidate()
         {
@@ -67,7 +67,7 @@ namespace Core.Entities
         {
             base.Awake();
             _entityCollider = GetComponent<Collider>();
-            _ai = new EntityPathfinder((EnemyConfigurationSo)configuration, GetComponent<Seeker>(), _entityRigidbody, RightAngle);
+            _ai = new EntityPathfinder((EnemyConfigurationSo)_config, GetComponent<Seeker>(), ERigidbody, RightAngle);
 
             if (_walkPositions.Length == 0)
             {
@@ -81,7 +81,7 @@ namespace Core.Entities
 
         private void Start()
         {
-            SetMoveStage(MoveStage.Walking);
+            SetMoveStage(MoveStage.Walk);
         }
 
         private bool IsPlayerVisible()
@@ -183,7 +183,7 @@ namespace Core.Entities
         public void StartKill()
         {
             _walk = false;
-            EnablePhysics(false);
+            EnablePhysics(false, false);
             _entityCollider.enabled = false;
         }
 
@@ -191,8 +191,6 @@ namespace Core.Entities
 
         protected virtual void OnDrawGizmosSelected()
         {
-            if (!_drawGizmos) return;
-
             Gizmosf.DrawSphere(CollisionPosition, EnemyConfig.CollisionDistance, new Color(1, 0, 0, 0.1f));
 
             for (int i = 0; i < _walkPositions.Length; i++)

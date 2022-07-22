@@ -13,6 +13,7 @@ namespace Core.Controllers
 
         [Space]
         [SerializeField] private float _openSpeed = 4;
+        [SerializeField] private float _slowOpenSpeed = 4;
 
         [Space]
         [SerializeField] private Vector3 _openedPosition;
@@ -48,26 +49,32 @@ namespace Core.Controllers
 #endif
         }
 
-        public void Open()
+        public void Open(bool slow = false)
         {
             if (IsOpened) return;
 
             IsOpened = true;
-            gameObject.LerpPosition(this, _openedPosition, _openSpeed);
+            gameObject.LerpPosition(this, _openedPosition, slow ? _slowOpenSpeed : _openSpeed);
         }
 
-        public void Close()
+        public void Close(bool slow = false)
         {
             if (!IsOpened) return;
 
             IsOpened = false;
-            gameObject.LerpPosition(this, _closedPosition, _openSpeed);
+            gameObject.LerpPosition(this, _closedPosition, slow ? _slowOpenSpeed : _openSpeed);
         }
 
         public void Use(bool isOpened)
         {
             if (isOpened) Open();
             else Close();
+        }
+
+        public void Use(bool isOpened, bool slow)
+        {
+            if (isOpened) Open(slow);
+            else Close(slow);
         }
 
         private void OnDrawGizmosSelected()

@@ -46,8 +46,8 @@ namespace Core.Controllers
 
             _insideHideout = true;
             _enterPos = _player.transform.position;
-            _player.SetMoveStage(MoveStage.Freezing);
-            _player.LerpTo(transform.position + _hideoutPosition, new Vector3(0, _hideAngle, 0));
+            _player.SetMoveStage(MoveStage.None);
+            _player.Lerp(transform.position + _hideoutPosition, new Vector3(0, _hideAngle, 0));
         }
 
         private void Unhide()
@@ -55,8 +55,8 @@ namespace Core.Controllers
             if (!InsideAnyCollider() || (!_multiple && _hasInteracted) || !_insideHideout) return;
 
             _insideHideout = false;
-            _player.SetMoveStage(MoveStage.Walking);
-            _player.LerpTo(new Vector3(transform.position.x, _enterPos.y, _enterPos.z), new Vector3(0, 90, 0));
+            _player.SetMoveStage(MoveStage.Walk);
+            _player.Lerp(new Vector3(transform.position.x, _enterPos.y, _enterPos.z), new Vector3(0, 90, 0));
         }
 
         private void OnDrawGizmosSelected() {

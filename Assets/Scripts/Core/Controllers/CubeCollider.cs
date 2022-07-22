@@ -32,6 +32,8 @@ namespace Core.Controllers
         public event Action OnEnter;
         public event Action OnExit;
 
+        public Vector3 Offset => _offset;
+        public Vector3 Position => transform.position + _offset;
         public Vector3 Size => new(transform.lossyScale.x * _size.x, transform.lossyScale.y * _size.y, transform.lossyScale.z * _size.z);
 
 #if UNITY_EDITOR

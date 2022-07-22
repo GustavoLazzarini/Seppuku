@@ -20,8 +20,7 @@ namespace Core.Controllers
             if (_played) return;
             if (!collision.IsPlayer()) return;
 
-            Collider[] entities = Physics.OverlapSphere(transform.position + _offset, _range);
-            foreach (Collider c in entities)
+            foreach (Collider c in Physics.OverlapSphere(transform.position + _offset, _range))
             {
                 if (c.TryGetComponent(out Enemy e))
                 {

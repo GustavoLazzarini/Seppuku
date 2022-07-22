@@ -728,11 +728,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98de0ba9172a552478c30827749634eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ECollider: {fileID: 0}
+  EAnimator: {fileID: 0}
+  ERigidbody: {fileID: 0}
+  _forces: []
+  Euler: {x: 0, y: 0, z: 0}
+  LastLerp: {x: 0, y: 0, z: 0}
+  MoveVector: {x: 0, y: 0, z: 0}
+  AcelerationRate: 0
+  MoveAxis: 1
+  CStair: {fileID: 0}
+  EMoveStage: 1
+  CurrentLife: 0
+  IsMoving: 0
+  IsDashing: 0
+  IsRunning: 0
+  IsCrouching: 0
+  IsAttacking: 0
+  IsAlive: 1
+  CanMove: 1
+  SlidingCompleted: 0
+  IsGrounded: 1
+  CanStopMovement: 1
+  EnableStopMovementOnGround: 0
+  StopedDash: 0
+  PerformingDash: 0
+  DashDirection: {x: 0, y: 0, z: 0}
+  _config: {fileID: 11400000, guid: 168a6007cc8296e47a943109d2e34e37, type: 2}
   CurrentStair: {fileID: 0}
-  EntityMoveStage: 0
-  _drawGizmos: 1
-  configuration: {fileID: 11400000, guid: 168a6007cc8296e47a943109d2e34e37, type: 2}
-  _rightAngle: 90
   stairAffect: {fileID: 11400000, guid: 163e585e8080b674385a87407fefd959, type: 2}
   _armPosition: {fileID: 2281526811646587668}
   _groundMask:

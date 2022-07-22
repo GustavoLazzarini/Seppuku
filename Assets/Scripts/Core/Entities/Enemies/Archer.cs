@@ -24,11 +24,6 @@ namespace Core.Entities
             _ai.PathCompleted -= NextPoint;
         }
 
-        protected override void FixedUpdate()
-        {
-            base.FixedUpdate();
-        }
-
         public override void Attack()
         {
             throw new System.NotImplementedException();
@@ -49,7 +44,7 @@ namespace Core.Entities
             {
                 CanMove = x;
                 _isLookingDown = !x;
-                _entityAnimator.SetBool("LookingDown", !x);
+                EAnimator.SetBool("LookingDown", !x);
 
                 float lookAngle = (LookPosition - transform.position).normalized.ToString() switch
                 {
@@ -60,8 +55,8 @@ namespace Core.Entities
                     _ => throw new System.Exception("Look offset is strange")
                 };
 
-                if (x) LerpToMove(_walkPositions[lastWalk].Position);
-                else LerpTo(LookPosition);
+                if (x) Lerp(_walkPositions[lastWalk].Position);
+                else Lerp(LookPosition);
 
                 SetEuler(new Vector3(0, !x ? lookAngle : RightAngle, 0));
 
@@ -103,7 +98,6 @@ namespace Core.Entities
 
         protected override void OnDrawGizmosSelected()
         {
-            if (!_drawGizmos) return;
             base.OnDrawGizmosSelected();
             Gizmosf.DrawSphere(LookPosition, 0.1f, Color.red);
         }

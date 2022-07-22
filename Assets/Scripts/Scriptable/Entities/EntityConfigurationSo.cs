@@ -29,6 +29,7 @@ namespace Scriptable.Entities
 		[SerializeField] private float _airSpeedMod = 1.1f;
 		[SerializeField] private float _slideSpeedMod = 1.1f;
 		[SerializeField] private float _dashSpeed = 5;
+		[SerializeField] private float _stairJumpSpeed = 15;
 
 		[Header("Aceleration")]
 		[SerializeField] private float _acelerationRate;

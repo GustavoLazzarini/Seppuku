@@ -8,7 +8,7 @@ namespace Util
 {
     public class EntityRotationChanger : MonoBehaviour
     {
-        [SerializeField] private float _rightAngle;
+        [SerializeField] private SnapAxis _moveAxis;
 
         [Space]
         [SerializeField] private UnityEvent _onChangedAngle;
@@ -17,9 +17,9 @@ namespace Util
         {
             if (other.TryGetComponent(out Entity entity))
             {
-                if (entity.RightAngle == _rightAngle) return;
+                if (entity.MoveAxis == _moveAxis) return;
 
-                entity.RightAngle = _rightAngle;
+                entity.MoveAxis = _moveAxis;
                 _onChangedAngle?.Invoke();
             }
         }

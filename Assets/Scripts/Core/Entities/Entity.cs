@@ -6,213 +6,246 @@ using Core.Controllers;
 using Scriptable.Entities;
 using System.Threading.Tasks;
 using Core.Interactables;
+using System.Collections.Generic;
 
 namespace Core.Entities
 {
-    public enum MoveStage {
-        Freezing,
-        Walking,
-        MonkeyClimbing,
-        Climbing,
+    public enum MoveStage
+    {
+        None,
+        Walk,
+        Climb,
         Runner
     }
 
     public class Entity : MonoBehaviour
     {
-        protected Animator _entityAnimator;
-        protected Rigidbody _entityRigidbody;
+        [HideInInspector] public Collider ECollider;
+        [HideInInspector] public Animator EAnimator;
+        [HideInInspector] public Rigidbody ERigidbody;
 
-        public Rigidbody ERigidbody => _entityRigidbody;
+        [HideInInspector] public List<Vector3> _forces = new();
 
-        protected Vector3 _freezePosition;
+        [HideInInspector] public Vector3 Euler;
+        [HideInInspector] public Vector3 LastLerp;
+        [HideInInspector] public Vector3 MoveVector;
 
-        private Vector3 _moveVector;
-        public Vector3 MoveVector
+        [HideInInspector] public Coroutine _cEulerLerp;
+        [HideInInspector] public Coroutine _cPositionLerp;
+
+        [HideInInspector] public float AcelerationRate;
+        public SnapAxis MoveAxis;
+
+        [HideInInspector] public Stair CStair;
+
+        public MoveStage EMoveStage;
+
+        public bool IsStoped => EMoveStage == MoveStage.None;
+        public bool IsWalking => EMoveStage == MoveStage.Walk;
+        public bool IsClimbing => EMoveStage == MoveStage.Climb;
+
+        [HideInInspector] public float CurrentLife;
+        public int MaxLife => _config.MaxLife;
+
+        public float RunSpeed => _config.RunSpeed;
+        public float JumpSpeed => _config.JumpSpeed;
+
+        [HideInInspector] public bool IsMoving;
+        [HideInInspector] public bool IsDashing;
+        [HideInInspector] public bool IsRunning;
+        [HideInInspector] public bool IsCrouching;
+        [HideInInspector] public bool IsAttacking; 
+        public bool StairImpulsing;
+        [HideInInspector] public bool IsAlive = true;
+        [HideInInspector] public bool CanMove = true;
+        [HideInInspector] public bool SlidingCompleted;
+        [HideInInspector] public bool IsGrounded = true;
+
+        [HideInInspector] public bool StopedDash;
+        [HideInInspector] public bool PerformingDash;
+        [HideInInspector] public Vector3 DashDirection;
+
+        public float RightAngle => MoveAxis switch
         {
-            get => _moveVector;
-            set => _moveVector = value;
+            SnapAxis.X => 90,
+            SnapAxis.Z => 0,
+            _ => throw new NotImplementedException()
+        };
+
+        protected float ClampedLife(float damage) => Mathf.Clamp(CurrentLife - damage, 0, MaxLife);
+
+        [Space]
+        [SerializeField] protected EntityConfigurationSo _config;
+
+        public void SetVelocity(Vector3 value)
+        {
+            ERigidbody.velocity = Vector3.zero;
+            ERigidbody.velocity = GetForces() + value;
+        }
+        public void EnablePhysics(bool? gravity, bool? collision)
+        {
+            if (gravity.HasValue) ERigidbody.useGravity = gravity.Value;
+            if (collision.HasValue) ECollider.enabled = collision.Value;
         }
 
-        //protected Vector3 _targetEuler;
-        //public Vector3 TargetEuler => _targetEuler;
-
-        protected Vector3 _lastLerp;
-        public Vector3 LastLerp => _lastLerp;
-
-        protected float _acelerationRate;
-        public float AcelerationRate { get => _acelerationRate; protected set => _acelerationRate = value; }
-
-        protected Coroutine _currentLerp;
-        protected Coroutine _eulerLerpCoroutine;
-
-        public virtual float RightAngle
+        public Vector3 GetForces()
         {
-            get => _rightAngle; 
-            set
+            if (IsGrounded)
             {
-                _rightAngle = value;
-                if ((value % 90) == 0)
-                    _entityRigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-                if (value == 0 || (value % 180) == 0)
-                    _entityRigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+                _forces.Clear();
+                return Vector3.zero;
             }
-        }
 
-        [HideInInspector] public Stair CurrentStair;
+            Vector3 f = default;
+            for (int i = 0; i < _forces.Count; i++)
+            {
+                f += _forces[i];
+                _forces[i] -= _forces[i] * Time.deltaTime * 2;
+                if (_forces[i].magnitude < 0.1f)
+                {
+                    _forces.Remove(_forces[i]);
+                    i--;
+                }
+            }
 
-        [HideInInspector] public MoveStage EntityMoveStage = MoveStage.Walking;
-        public bool IsFreezingMode => EntityMoveStage == MoveStage.Freezing;
-        public bool IsWalkingMode => EntityMoveStage == MoveStage.Walking;
-        public bool IsClimbingMode => EntityMoveStage == MoveStage.MonkeyClimbing;
-
-        public virtual int MaxLife => configuration.MaxLife;
-        public virtual int MaxStamina => configuration.MaxStamina;
-
-        public virtual bool IsAlive { get; set; } = true;
-        public virtual bool IsWalking { get; set; }
-        public virtual bool IsCrouching { get; set; }
-        public virtual bool IsDashing { get; set; }
-        public virtual bool IsGrounded { get; set; } = true;
-        public virtual bool CanMove { get; set; } = true;
-        public virtual bool IsRunning { get; set; }
-        public virtual bool SlidingCompleted { get; set; }
-        public virtual bool IsAttacking { get; set; }
-
-        public virtual bool IsPerformingDash { get; set; }
-        public virtual bool HasStopPerformingDash { get; set; }
-
-        public virtual float CurrentLife { get; set; }
-        public virtual float CurrentStamina { get; set; }
-
-        public Vector3 DashDirection { get; set; }
-
-        protected Action OnDeath;
-        protected Action<float> OnDamage;
-        protected Action<float> OnStaminaUse;
-
-        [SerializeField] protected bool _drawGizmos;
-
-        [Space]
-        [SerializeField] protected EntityConfigurationSo configuration;
-
-        [Space]
-        [SerializeField] private float _rightAngle;
-
-        protected Vector3 _curEuler;
-
-        protected virtual bool IsLifeZero => CurrentLife <= 0;
-        protected virtual bool IsStaminaZero => CurrentStamina == 0;
-
-        protected virtual float GetDamagedLife(float damage) => Mathf.Clamp(CurrentLife - damage, 0, MaxLife);
-        protected virtual float GetUsedStamina(float used) => Mathf.Clamp(CurrentStamina - used, 0, MaxStamina);
-
-        public virtual void Set_Anim_IsWalking(bool value) => _entityAnimator.SetBool("IsWalking", value);
-
-        public float WalkSpeed => configuration.WalkSpeed;
-        public float RunSpeed => configuration.RunSpeed;
-        public float CrouchSpeed => configuration.CrouchSpeed;
-        public float JumpSpeed => configuration.JumpSpeed;
-
-        protected virtual void EnablePhysics(bool value)
-        {
-            _entityRigidbody.useGravity = value;
-        }
-
-        protected void SetVelocity(Vector3 value)
-        {
-            _entityRigidbody.velocity = Vector3.zero;
-            _entityRigidbody.velocity = value;
+            return f;
         }
 
         protected virtual void Awake()
         {
             IsAlive = true;
-
             CurrentLife = MaxLife;
-            CurrentStamina = MaxStamina;
 
-            _entityAnimator = GetComponent<Animator>();
-            _entityRigidbody = GetComponent<Rigidbody>();
+            ECollider = GetComponent<Collider>();
+            EAnimator = GetComponent<Animator>();
+            ERigidbody = GetComponent<Rigidbody>();
 
-            RightAngle = _rightAngle;
-
-            _freezePosition = transform.position;
+            SetMoveAxis(MoveAxis);
+            SetMoveStage(EMoveStage, true);
         }
-
-        protected virtual void FixedUpdate()
+        protected void FixedUpdate()
         {
-            Collider[] cols = Physics.OverlapSphere(transform.position, 0.2f, LayerMask.GetMask("Movable"));
-            if (cols.Length > 0)
+            MovableOffset();
+            Action act = EMoveStage switch
             {
-                ERigidbody.position += cols[0].GetComponentInParent<Movable>().Delta;
+                MoveStage.None => delegate { },
+                MoveStage.Walk => WalkMovement,
+                MoveStage.Climb => ClimbMovement,
+                MoveStage.Runner => RunnerMovement,
+                _ => throw new NotImplementedException()
+            };
+            act();
+        }
+
+        public void SwitchMoveStage(MoveStage a, MoveStage b)
+        {
+            if (EMoveStage != a && EMoveStage != b) return;
+            
+            if (EMoveStage == a)
+            {
+                EMoveStage = b;
+                return;
             }
-            Movement()?.Invoke();
+
+            EMoveStage = a;
+        }
+        public void SetMoveStage(MoveStage value, bool over = false)
+        {
+            if (EMoveStage == value && !over) return;
+            DisableCurrent(EMoveStage);
+            EMoveStage = value;
+
+            switch (value)
+            {
+                case MoveStage.None:
+                    break;
+
+                case MoveStage.Walk:
+                    EnablePhysics(true, true);
+                    EnableWalk(true);
+                    break;
+
+                case MoveStage.Runner:
+                    EnablePhysics(true, true);
+                    EnableRunner(true);
+                    break;
+
+                case MoveStage.Climb:
+                    EnablePhysics(false, false);
+                    EnableClimbing(true);
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
+
+            void DisableCurrent(MoveStage v)
+            {
+                switch (v)
+                {
+                    case MoveStage.None:
+                        break;
+
+                    case MoveStage.Walk:
+                        EnableWalk(false);
+                        break;
+
+                    case MoveStage.Runner:
+                        EnableRunner(false);
+                        break;
+
+                    case MoveStage.Climb:
+                        EnableClimbing(false);
+                        break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
         }
 
-        public virtual void SetEuler(Vector3 euler, float lerpSpeed = 10, float threshold = 0.1f)
+        protected virtual void EnableWalk(bool v)
         {
-            _curEuler = euler;
+            if (v)
+            {
+                MoveVector = Vector3.zero;
+                return;
+            }
 
-            if (_eulerLerpCoroutine != null) StopCoroutine(_eulerLerpCoroutine);
+            MoveVector = Vector3.zero;
+        }
+        protected virtual void EnableRunner(bool v)
+        {
+            if (v)
+            {
+                MoveVector = Vector3.zero;
+                return;
+            }
 
-            _eulerLerpCoroutine = Routinef.LoopWhile(() => transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, euler, Time.fixedDeltaTime * lerpSpeed),
-                () => (transform.eulerAngles - euler).magnitude > threshold, Time.fixedDeltaTime, this, () => transform.eulerAngles = euler);
+            MoveVector = Vector3.zero;
+        }
+        protected virtual void EnableClimbing(bool v)
+        {
+            if (v)
+            {
+                MoveVector = Vector3.zero;
+                ERigidbody.useGravity = false;
+                return;
+            }
+
+            MoveVector = Vector3.zero;
+            ERigidbody.useGravity = true;
         }
 
-        public virtual void Damage(float damage)
+        protected virtual void WalkMovement()
         {
-            if (!IsAlive) return;
+            if (StairImpulsing) return;
 
-            CurrentLife = GetDamagedLife(damage);
-            OnDamage?.Invoke(damage);
-
-            if (IsLifeZero) Death();
-        }
-
-        public virtual void UseStamina(float used)
-        {
-            if (!IsAlive) return;
-
-            CurrentStamina = GetUsedStamina(used);
-            OnStaminaUse?.Invoke(used);
-        }
-
-        public virtual void Death()
-        {
-            if (!IsAlive) return;
-
-            IsAlive = false;
-            OnDeath?.Invoke();
-        }
-
-        protected virtual Action Movement() => EntityMoveStage switch
-        {
-            MoveStage.Freezing => FreezeMove,
-            //MoveStage.MonkeyClimbing => ClimbMove,
-            MoveStage.Walking => WalkMove,
-            MoveStage.Runner => WalkMove,
-            MoveStage.Climbing => ClimbMove,
-            _ => throw new NotImplementedException()
-        };
-
-        protected virtual void WalkMove()
-        {
             if (!IsAlive || !CanMove)
             {
                 SetVelocity(Vector3.zero);
                 return;
             }
-
-            float tSpeed;
-            float walkSpeed = (configuration.WalkSpeed * (1 - AcelerationRate)) + (configuration.RunSpeed * AcelerationRate);
-            float airSpeed = walkSpeed * configuration.AirSpeedModifier;
-            float crouchSpeed = (configuration.CrouchSpeed * (1 - AcelerationRate)) + (configuration.RunSpeed * AcelerationRate);
-            float slideSpeed = walkSpeed * configuration.SlideSpeedModifier;
-
-            if (IsCrouching && !SlidingCompleted) tSpeed = slideSpeed;
-            else if (IsCrouching) tSpeed = crouchSpeed;
-            else if (!IsGrounded) tSpeed = airSpeed;
-            else tSpeed = walkSpeed;
 
             if (MoveVector.magnitude <= 0.01f)
             {
@@ -220,43 +253,48 @@ namespace Core.Entities
                 return;
             }
 
-            if (HasStopPerformingDash && IsDashing && !IsPerformingDash)
+            if (StopedDash && IsDashing && !PerformingDash)
             {
                 Dash();
                 return;
             }
 
-            if (IsPerformingDash)
+            if (PerformingDash)
             {
-                Vector3 sv = DashDirection * configuration.DashSpeed;
-                Vector3 nv = transform.forward.Abs() * sv.x;
+                Vector3 velocity = DashDirection * _config.DashSpeed;
+                Vector3 nv = transform.forward.Abs() * velocity.x;
 
                 Vector3 fv = nv;
-                if (fv.x == 0) fv.x = _entityRigidbody.velocity.x;
-                if (fv.z == 0) fv.z = _entityRigidbody.velocity.z;
-                fv.y = _entityRigidbody.velocity.y;
+                if (fv.x == 0) fv.x = ERigidbody.velocity.x;
+                if (fv.z == 0) fv.z = ERigidbody.velocity.z;
+                fv.y = ERigidbody.velocity.y;
 
                 SetVelocity(fv);
 
                 return;
             }
 
-            SetTargetEuler();
-            Set_Anim_IsWalking(true);
-            IsWalking = true;
+            float speed;
+            float walkSpeed = (_config.WalkSpeed * (1 - AcelerationRate)) + (_config.RunSpeed * AcelerationRate);
 
-            Vector3 speededVec = MoveVector * tSpeed;
-            Vector3 newVelocity = transform.forward.Abs() * speededVec.x;
+            if (IsCrouching && !SlidingCompleted) speed = walkSpeed  * _config.SlideSpeedModifier;
+            else if (IsCrouching) speed = (_config.CrouchSpeed * (1 - AcelerationRate)) + (_config.RunSpeed * AcelerationRate);
+            else if (!IsGrounded) speed = walkSpeed * _config.AirSpeedModifier;
+            else speed = walkSpeed;
 
-            Vector3 fVel = newVelocity;
-            if (fVel.x == 0) fVel.x = _entityRigidbody.velocity.x;
-            if (fVel.z == 0) fVel.z = _entityRigidbody.velocity.z;
-            fVel.y = _entityRigidbody.velocity.y;
+            SetEuler();
 
-            SetVelocity(fVel);
+            IsMoving = true;
+            EAnimator.SetBool("IsWalking", true);
+
+            Vector3 vel = (speed * MoveVector).x * transform.forward.Abs();
+            if (vel.x == 0) vel.x = ERigidbody.velocity.x;
+            if (vel.z == 0) vel.z = ERigidbody.velocity.z;
+            vel.y = ERigidbody.velocity.y;
+
+            SetVelocity(vel);
         }
-
-        protected virtual void ClimbMove()
+        protected virtual void ClimbMovement()
         {
             if (!IsAlive || !CanMove)
             {
@@ -270,270 +308,270 @@ namespace Core.Entities
                 return;
             }
 
-            IsWalking = true;
-            Set_Anim_IsWalking(true);
+            IsMoving = true;
+            EAnimator.SetBool("IsWalking", true);
 
-            Vector3 fVel = MoveVector * configuration.ClimbSpeed;
-            if (fVel.z == 0) fVel.z = _entityRigidbody.velocity.z;
+            Vector3 vel = MoveVector * _config.ClimbSpeed;
+            if (vel.z == 0) vel.z = ERigidbody.velocity.z;
 
-            SetVelocity(fVel);
+            SetVelocity(vel);
         }
-
-        protected virtual void FreezeMove()
+        protected virtual void RunnerMovement()
         {
-            //_entityRigidbody.position = Vector3.Lerp(_entityRigidbody.position, _freezePosition, Time.fixedDeltaTime * 3);
+
         }
 
-        //protected virtual void ClimbMove()
-        //{
-        //    if (!IsAlive || !CanMove || CurrentStair == null) return;
+        protected virtual void Dash() { }
 
-        //    if (MathF.Abs(MoveVector.y) < 0.5f)
-        //    {
-        //        StopMovement();
-        //        return;
-        //    }
-        //}
+        private void MovableOffset()
+        {
+            Collider[] cols = Physics
+                .OverlapSphere(transform.position, 0.2f, LayerMask.GetMask("Movable"));
 
-        //protected virtual void OnClimbUp()
-        //{
-        //    if (!IsAlive || !CanMove || CurrentStair == null) return;
-        //    CurrentStair.JumpTo(StairController.Direction.Up);
-        //}
+            if (cols.Length == 0) return;
 
-        //protected virtual void OnClimbDown()
-        //{
-        //    if (!IsAlive || !CanMove || CurrentStair == null) return;
-        //    CurrentStair.JumpTo(StairController.Direction.Down);
-        //}
-
-        //protected virtual void OnClimbLeft()
-        //{
-        //    if (!IsAlive || !CanMove || CurrentStair == null) return;
-        //    CurrentStair.JumpTo(StairController.Direction.Left);
-        //}
-
-        //protected virtual void OnClimbRight()
-        //{
-        //    if (!IsAlive || !CanMove || CurrentStair == null) return;
-        //    CurrentStair.JumpTo(StairController.Direction.Right);
-        //}
-
+            Movable mov = cols[0].GetComponentInParent<Movable>();
+            if (mov != null) ERigidbody.position += mov.Delta;
+        }
         protected virtual void StopMovement(Vector3? value = null)
         {
-            value ??= new Vector3(0, EntityMoveStage == MoveStage.MonkeyClimbing ? 0 : _entityRigidbody.velocity.y, 0);
+            if (StairImpulsing) return;
 
+            value ??= new Vector3(0, ERigidbody.velocity.y, 0);
+
+            IsMoving = false;
             SetVelocity(value.Value);
-            Set_Anim_IsWalking(false);
-            IsWalking = false;
+            EAnimator.SetBool("IsWalking", false);
         }
 
-        protected virtual void SetTargetEuler()
+        public virtual void Damage(float damage)
         {
-            float y = MoveVector.x < 0 || (MoveVector.x == 0 && _curEuler.y == (RightAngle + 180)) ? (RightAngle + 180) : RightAngle;
-            SetEuler(new Vector3(0, y, 0), 40);
+            if (!IsAlive) return;
+
+            CurrentLife = ClampedLife(damage);
+            if (CurrentLife <= 0) Die();
         }
 
-        public void SetMoveStage(MoveStage value)
+        public void Die()
         {
-            if (EntityMoveStage == value) return;
-            DisableCurrent(EntityMoveStage);
-            EntityMoveStage = value;
+            IsAlive = false;
+            CanMove = false;
 
-            switch (value)
+            OnDeath();
+        }
+        protected virtual void OnDeath() { }
+        
+        public void SetMoveAxis(SnapAxis axis)
+        {
+            MoveAxis = axis;
+            switch (MoveAxis)
             {
-                case MoveStage.Freezing:
-                    _freezePosition = transform.position;
+                case SnapAxis.X:
+                    ERigidbody.constraints = RigidbodyConstraints.FreezePositionZ   | RigidbodyConstraints.FreezeRotationX
+                                                                                    | RigidbodyConstraints.FreezeRotationY
+                                                                                    | RigidbodyConstraints.FreezeRotationZ;
                     break;
 
-                case MoveStage.Walking:
-                    EnablePhysics(true);
-                    EnableWalk(true);
-                    break;
-
-                case MoveStage.Runner:
-                    EnablePhysics(true);
-                    EnableWalkJumpCouch(true);
-                    break;
-
-                case MoveStage.MonkeyClimbing:
-                    EnableClimbing(true);
-                    break;
-
-                case MoveStage.Climbing:
-                    EnableClimbing(true);
-                    EnablePhysics(false);
+                case SnapAxis.Z:
+                    ERigidbody.constraints = RigidbodyConstraints.FreezePositionX   | RigidbodyConstraints.FreezeRotationX
+                                                                                    | RigidbodyConstraints.FreezeRotationY
+                                                                                    | RigidbodyConstraints.FreezeRotationZ;
                     break;
 
                 default:
                     throw new NotImplementedException();
             }
-
-            void DisableCurrent(MoveStage v)
+        }
+        public void TeleportToObj(Transform obj) => transform.position = obj.position;
+        public void SetEuler(Vector3? euler = null, float speed = 10, float threshold = 0.1f)
+        {
+            if (!euler.HasValue)
             {
-                switch (v)
+                float y = MoveVector.x < 0 || (MoveVector.x == 0 && Euler.y == (RightAngle + 180)) ? (RightAngle + 180) : RightAngle;
+                SetEuler(new Vector3(0, y, 0));
+                return;
+            }
+
+            Euler = euler.Value;
+
+            if (_cEulerLerp != null) StopCoroutine(_cEulerLerp);
+            _cEulerLerp = Routinef.LoopWhile(() =>
+            {
+                transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, euler.Value, Time.fixedDeltaTime * speed);
+            }, () => (transform.eulerAngles - euler.Value).magnitude > threshold, Time.fixedDeltaTime, this);
+        }
+        
+        public void CompleteSllide() => SlidingCompleted = true;
+
+        public void Lerp(Vector3 target, Vector3? euler = null, float speed = 10,
+            float threshold = 0.1f, bool stopMove = false, bool enablePhysics = false, bool resetEuler = false,
+            Action onCompleted = null)
+        {
+            Vector3? startEuler =
+                resetEuler ? transform.eulerAngles : null;
+
+            if (euler.HasValue) SetEuler(euler);
+            if (_cPositionLerp != null) StopCoroutine(_cPositionLerp);
+
+            if (stopMove) CanMove = false;
+            if (enablePhysics) EnablePhysics(false, false);
+
+            _cPositionLerp = Routinef.LoopUntil(() =>
+            {
+                transform.position = Vector3.Lerp(transform.position, target, Time.fixedDeltaTime * speed);
+            }, () => (target - transform.position).magnitude < threshold, Time.fixedDeltaTime, this, () =>
+            {
+                transform.position = target;
+
+                onCompleted?.Invoke();
+                if (stopMove) CanMove = true;
+                if (enablePhysics) EnablePhysics(true, true);
+                if (startEuler.HasValue) SetEuler(startEuler.Value);
+            });
+        }
+
+        public void LinearLerp(Vector3 target, Vector3? euler = null, float speed = 10,
+            float threshold = 1, bool stopMove = false, bool enablePhysics = false, bool resetEuler = false,
+            Action onCompleted = null)
+        {
+            Vector3 start = transform.position;
+            Vector3 direction = (target - transform.position).normalized;
+
+            Vector3? startEuler =
+                resetEuler ? transform.eulerAngles : null;
+
+            if (euler.HasValue) SetEuler(euler);
+            if (_cPositionLerp != null) StopCoroutine(_cPositionLerp);
+
+            if (stopMove) CanMove = false;
+            if (enablePhysics) EnablePhysics(false, false);
+
+            _cPositionLerp = Routinef.LoopWhile((t) =>
+            {
+                transform.position = start + (direction * speed) * t;
+            }, () => (target - transform.position).magnitude > threshold, Time.fixedDeltaTime, this, () =>
+            {
+                transform.position = target;
+
+                onCompleted?.Invoke();
+                if (stopMove) CanMove = true;
+                if (enablePhysics) EnablePhysics(true, true);
+                if (startEuler.HasValue) SetEuler(startEuler.Value);
+            });
+        }
+
+        public void LerpAxis(SnapAxis axis, float worldPos, Vector3? euler = null, float speed = 10,
+            float threshold = 0.1f, bool stopMove = false, bool enablePhysics = false, bool resetEuler = false,
+            Action onCompleted = null)
+        {
+            Vector3? startEuler =
+                resetEuler ? transform.eulerAngles : null;
+
+            if (euler.HasValue) SetEuler(euler.Value);
+            if (_cPositionLerp != null) StopCoroutine(_cPositionLerp);
+
+            if (stopMove) CanMove = false;
+            if (enablePhysics) EnablePhysics(false, false);
+
+            _cPositionLerp = Routinef.LoopUntil(() =>
+            {
+                Vector3 target = transform.position;
+
+                switch (axis)
                 {
-                    case MoveStage.Freezing:
-                        
+                    case SnapAxis.X:
+                        target.x = worldPos; break;
+
+                    case SnapAxis.Z:
+                        target.z = worldPos; break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                transform.position = Vector3.Lerp(transform.position, target, Time.fixedDeltaTime * speed);
+            }, () => axis switch
+            {
+                SnapAxis.X => Mathf.Abs(worldPos - transform.position.x) < threshold,
+                SnapAxis.Z => Mathf.Abs(worldPos - transform.position.z) < threshold,
+                _ => throw new NotImplementedException(),
+            }, Time.fixedDeltaTime, this, () =>
+            {
+                Debug.Log("Completed");
+                onCompleted?.Invoke();
+                if (stopMove) CanMove = true;
+                if (enablePhysics) EnablePhysics(true, true);
+                if (startEuler.HasValue) SetEuler(startEuler.Value);
+            });
+        }
+
+        public void LinearLerpAxis(SnapAxis axis, float worldPos, Vector3? euler = null, float speed = 10,
+            float threshold = 0.05f, bool stopMove = false, bool enablePhysics = false, bool resetEuler = false,
+            Action onCompleted = null)
+        {
+            Vector3 target = axis switch
+            {
+                SnapAxis.X => new Vector3(worldPos, transform.position.y, transform.position.z),
+                SnapAxis.Z => new Vector3(transform.position.x, transform.position.y, worldPos),
+                _ => throw new NotImplementedException()
+            };
+
+            Vector3 start = transform.position;
+            Vector3 direction = (target - transform.position).normalized;
+
+            Vector3? startEuler =
+                resetEuler ? transform.eulerAngles : null;
+
+            if (euler.HasValue) SetEuler(euler.Value);
+            if (_cPositionLerp != null) StopCoroutine(_cPositionLerp);
+
+            if (stopMove) CanMove = false;
+            if (enablePhysics) EnablePhysics(false, false);
+
+            _cPositionLerp = Routinef.LoopWhile((t) =>
+            {
+                target = transform.position;
+
+                switch (axis)
+                {
+                    case SnapAxis.X:
+                        target.x = worldPos; break;
+
+                    case SnapAxis.Z:
+                        target.z = worldPos; break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                ERigidbody.position = start + (direction * speed) * t;
+            }, () => {
+                bool completed = false;
+
+                switch (axis)
+                {
+                    case SnapAxis.X:
+                        completed = Mathf.Abs(worldPos - transform.position.x) > threshold;
                         break;
 
-                    case MoveStage.Walking:
-                        EnableWalk(false);
-                        break;
-
-                    case MoveStage.MonkeyClimbing:
-                        EnableClimbing(false);
-                        break;
-
-                    case MoveStage.Runner:
-                        EnableWalkJumpCouch(false);
-                        break;
-
-                    case MoveStage.Climbing:
-                        EnableClimbing(false);
+                    case SnapAxis.Z:
+                        completed = Mathf.Abs(worldPos - transform.position.z) > threshold;
                         break;
 
                     default:
                         throw new NotImplementedException();
                 }
-            }
-        }
 
-        public void SwitchMoveStage(MoveStage a, MoveStage b)
-        {
-            if (EntityMoveStage == a)
+                return completed;
+            }, Time.fixedDeltaTime, this, () =>
             {
-                SetMoveStage(b);
-            }
-            else if (EntityMoveStage == b)
-            {
-                SetMoveStage(a);
-            }
-        }
+                transform.position = target;
 
-        public virtual void LerpTo(Vector3 target, Action onCompleted = null)
-        {
-            float currentTime = 0;
-            if (_currentLerp != null) StopCoroutine(_currentLerp);
-
-            EnablePhysics(false);
-
-            _currentLerp = Routinef.LoopUntil(() =>
-            {
-
-                currentTime += Time.fixedDeltaTime;
-                transform.position = Vector3.Lerp(transform.position, target, Time.fixedDeltaTime * 10);
-
-            }, () => (target - transform.position).magnitude < 0.1f, Time.fixedDeltaTime, this, () =>
-            {
                 onCompleted?.Invoke();
+                if (stopMove) CanMove = true;
+                if (enablePhysics) EnablePhysics(true, true);
+                if (startEuler.HasValue) SetEuler(startEuler.Value);
             });
         }
-
-        public virtual void LerpToMove(Vector3 target, Action onCompleted = null)
-        {
-            float currentTime = 0;
-            if (_currentLerp != null) StopCoroutine(_currentLerp);
-
-            EnablePhysics(false);
-            CanMove = false;
-
-            _currentLerp = Routinef.LoopUntil(() =>
-            {
-
-                currentTime += Time.fixedDeltaTime;
-                transform.position = Vector3.Lerp(transform.position, target, Time.fixedDeltaTime * 10);
-
-            }, () => (target - transform.position).magnitude < 0.1f, Time.fixedDeltaTime, this, () =>
-            {
-                onCompleted?.Invoke();
-                CanMove = true;
-            });
-        }
-
-        public virtual void LerpTo(Vector3 target, Vector3 euler, Action onCompleted = null)
-        {
-            float currentTime = 0;
-            if (_currentLerp != null) StopCoroutine(_currentLerp);
-
-            CanMove = false;
-            SetEuler(Vector3.zero);
-
-            EnablePhysics(false);
-            Taskf.LoopUntil(() =>
-            {
-
-                currentTime += Time.fixedDeltaTime;
-                transform.position = Vector3.Lerp(transform.position, target, Time.fixedDeltaTime);
-
-            }, () => (target - transform.position).magnitude < 0.1f, Time.fixedDeltaTime, this, out _currentLerp, () =>
-            {
-                onCompleted?.Invoke();
-                CanMove = true;
-            });
-        }
-
-        protected virtual void EnableWalk(bool v)
-        {
-            if (v)
-            {
-                MoveVector = Vector3.zero;
-                return;
-            }
-
-            MoveVector = Vector3.zero;
-        }
-
-        protected virtual void EnableWalkJumpCouch(bool v)
-        {
-            if (v)
-            {
-                MoveVector = Vector3.zero;
-                return;
-            }
-
-            MoveVector = Vector3.zero;
-        }
-
-        protected virtual void EnableClimbing(bool v)
-        {
-            if (v)
-            {
-                MoveVector = Vector3.zero;
-                _entityRigidbody.useGravity = false;
-                Debug.Log("Tst");
-                return;
-            }
-
-            MoveVector = Vector3.zero;
-            _entityRigidbody.useGravity = true;
-        }
-
-        public virtual void JumpTo(Vector3 start, Vector3 end, AnimationCurve curve)
-        {
-            float curTime = 0;
-
-            Routinef.LoopUntil(() =>
-            {
-                float evaluated = curve.Evaluate(curTime);
-                curTime += Time.fixedDeltaTime;
-
-                _entityRigidbody.position = (start * (1 - evaluated)) + (end * evaluated);
-
-
-            }, () => curTime > 0.95f, Time.fixedDeltaTime, this, () =>
-            {
-                curTime = 1;
-                _entityRigidbody.position = end;
-
-            });
-        }
-
-        public virtual void JumpFromHere(Vector3 end, AnimationCurve curve)
-        {
-            JumpTo(transform.position, end, curve);
-        }
-    
-        protected virtual void Dash() { }
     }
 }

@@ -216,13 +216,18 @@ namespace Core
             return mid;
         }
 
-        public static bool ContainsPoint(this CubeCollider[] target, Vector3 point)
+        public static bool ContainsPoint(this CubeCollider[] target, Vector3 point, out CubeCollider area)
         {
             for (int i = 0; i < target.Length; i++)
             {
-                if (target[i].InsideCollider(point)) return true;
+                if (target[i].InsideCollider(point))
+                {
+                    area = target[i];
+                    return true;
+                }
             }
 
+            area = null;
             return false;
         }
     }

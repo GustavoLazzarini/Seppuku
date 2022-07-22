@@ -8,7 +8,7 @@ namespace Core.Entities
     {
         public override void Attack()
         {
-            _entityAnimator.SetTrigger("Attack");
+            EAnimator.SetTrigger("Attack");
         }
     }
 }

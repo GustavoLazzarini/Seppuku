@@ -100,15 +100,15 @@ namespace Core.Controllers
         {
             base.Interact();
 
-            _protagonist.SetMoveStage(MoveStage.Freezing);
+            _protagonist.SetMoveStage(MoveStage.None);
 
-            _protagonist.Set_Anim_IsWalking(true);
+            _protagonist.EAnimator.SetBool("IsWalking", true);
             _protagonist.CurrentMoveSize = 2;
 
-            _protagonist.LinearLerpTo(b.Position, _protagonist.RunSpeed, euler, true, () =>
+            _protagonist.LinearLerp(b.Position, euler, _protagonist.RunSpeed, 1, true, true, true, () =>
             {
                 _protagonist.CurrentMoveSize = 0;
-                _protagonist.SetMoveStage(MoveStage.Walking);
+                _protagonist.SetMoveStage(MoveStage.Walk);
             });
         }
     }

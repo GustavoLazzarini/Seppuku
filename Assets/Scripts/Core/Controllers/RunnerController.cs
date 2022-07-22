@@ -56,7 +56,7 @@ namespace Core.Controllers
             _player.IsRunning = false;
             _player.CurrentMoveSize = 0;
             _player.MoveVector = new Vector3(0, 0);
-            _player.SetMoveStage(MoveStage.Walking);
+            _player.SetMoveStage(MoveStage.Walk);
            
             _onCompleted?.Invoke();
         }

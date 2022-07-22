@@ -84,11 +84,24 @@ namespace Core.Interactables
 
         public void JumpInside()
         {
-            SetActive(false);
+            Vector3 impulse = _moveVector.normalized;
 
-            Vector3 impulse = new();
-            if (Mathf.Abs(_moveVector.x) > 0.2f) impulse.x = _moveVector.x;
-            if (Mathf.Abs(_moveVector.y) > 0.2f) impulse.y = _moveVector.y;
+            Debug.Log("t1");
+
+            SetActive(false);
+            
+            Debug.Log("t2");
+
+            if (_moveVector.magnitude < 0.2f) return;
+
+            Debug.Log("t3");
+
+            _moveVector = Vector2.zero;
+
+            Player.StairImpulsing = true;
+            Player.SetVelocity(impulse * Player.JumpSpeed);
+        
+            Debug.Log("t4");
         }
 
         public void SetMoveVector(Vector2 value) => _moveVector = value;
@@ -103,14 +116,13 @@ namespace Core.Interactables
             return false;
         }
 
-        public void SetActive(bool value, bool up = false)
+        public void SetActive(bool value, bool up = false, CubeCollider area = null)
         {
-            bool _insideAnyArea = _areaColliders.ContainsPoint(Player.transform.position);
             if (value == Active) return;
 
             if (!value)
             {
-                _enterTime = Time.unscaledTime + 2;
+                _enterTime = Time.unscaledTime + .5f;
                 switch (_axis)
                 {
                     case SnapAxis.X:
@@ -120,11 +132,11 @@ namespace Core.Interactables
 
                         if (up)
                         {
-                            _protagonist.LerpTo(_up.Position, new Vector3(0, 90, 0), 5);
+                            _protagonist.Lerp(_up.Position, new Vector3(0, 90, 0), 5, 0.1f, true, true);
                             break;
                         }
 
-                        _protagonist.LerpAxis(_axis, _down.Position.z, 5, new Vector3(0, 90, 0));
+                        _protagonist.LerpAxis(_axis, _down.Position.z, new Vector3(0, 90, 0), 5, 0.05f, true, true);
                         break;
 
                     default:
@@ -133,17 +145,17 @@ namespace Core.Interactables
                 }
 
                 _protagonist.CurrentStair = null;
-                _protagonist.SetMoveStage(MoveStage.Walking);
+                _protagonist.SetMoveStage(MoveStage.Walk);
 
                 return;
             }
 
             if (Time.unscaledTime < _enterTime) return;
 
-            _enterTime = Time.unscaledTime + 2;
+            CubeCollider tArea = area ?? NearestArea();
 
-            Vector3 p = NearestArea().ClosestInside(up ? _protagonist.UpStair : _protagonist.DownStair);
-            if (up) p.y -= (Player.UpStair.y - Player.transform.position.y);
+            Vector3 p = tArea.ClosestInside(_protagonist.UpStair);
+            p.y -= (Player.UpStair.y - Player.transform.position.y);
             
             Vector3 euler = _protagonist.transform.localEulerAngles;
 
@@ -164,19 +176,38 @@ namespace Core.Interactables
                     break;
             }
 
-            _protagonist.LerpTo(_areaColliders[0].ClosestInside(p), euler, 5, () =>
+            _protagonist.Lerp(tArea.ClosestInside(p), euler, 5, 0.1f, true, false, false, () =>
             {
                 _protagonist.ERigidbody.useGravity = false;
                 _protagonist.CurrentStair = this;
             });
 
-            _protagonist.SetMoveStage(MoveStage.Climbing);
+            _protagonist.SetMoveStage(MoveStage.Climb);
         }
 
         protected override void Update()
         {
             if (Active)
             {
+                if (_moveVector.x < 0 && !InsideArea(_protagonist.LeftStair))
+                {
+                    if (_disableLeft) DisableWalk(new Vector3(1, 0));
+                    else
+                    {
+                        SetActive(false);
+                        return;
+                    }
+                }
+                else if (_moveVector.x > 0 && !InsideArea(_protagonist.RightStair))
+                {
+                    if (_disableRight) DisableWalk(new Vector3(-1, 0));
+                    else
+                    {
+                        SetActive(false);
+                        return;
+                    }
+                }
+                
                 if (_moveVector.y > 0 && !InsideArea(_protagonist.UpStair))
                 {
                     if (_disableUp) DisableWalk(new Vector3(0, -1));
@@ -184,30 +215,24 @@ namespace Core.Interactables
                     {
                         _protagonist.Set_Anim_FinishClimbing();
                         _protagonist.CanMove = false;
+                        return;
                     }
                 }
                 else if (_moveVector.y < 0 && !InsideArea(_protagonist.DownStair))
                 {
                     if (_disableDown) DisableWalk(new Vector3(0, 1));
-                    else SetActive(false);
-                }
-
-                if (_moveVector.x < 0 && !InsideArea(_protagonist.LeftStair))
-                {
-                    if (_disableLeft) DisableWalk(new Vector3(1, 0));
-                    else SetActive(false);
-                }
-                else if (_moveVector.x > 0 && !InsideArea(_protagonist.RightStair))
-                {
-                    if (_disableRight) DisableWalk(new Vector3(-1, 0));
-                    else SetActive(false);
+                    else
+                    {
+                        SetActive(false);
+                        return;
+                    }
                 }
 
                 SetMoveVector(_protagonist.MoveVector);
                 return;
             }
 
-            bool _insideAnyArea = _areaColliders.ContainsPoint(Player.transform.position);
+            bool _insideAnyArea = _areaColliders.ContainsPoint(Player.transform.position, out CubeCollider area);
 
             if (_insideAnyArea && !Player.IsGrounded)
             {
@@ -219,7 +244,7 @@ namespace Core.Interactables
         private void DisableWalk(Vector3 moveVec)
         {
             _protagonist.MoveVector = moveVec;
-            _protagonist.Set_Anim_IsWalking(false);
+            _protagonist.EAnimator.SetBool("IsWalking", false);
         }
 
         private void TickColliders()
@@ -246,13 +271,16 @@ namespace Core.Interactables
 
             for (int i = 0; i < _areaColliders.Length; i++)
             {
-                float distance = (_areaColliders[i].transform.position - Player.transform.position).magnitude;
+                float distance = (_areaColliders[i].Position - Player.transform.position).magnitude;
+                Debug.Log($"{i} - {distance}");
                 if (distance < minDistance)
                 {
                     index = i;
                     minDistance = distance;
                 }
             }
+
+            Debug.Log($"{index} {_areaColliders.Length}");
 
             return index < 0 ? null : _areaColliders[index];
         }
