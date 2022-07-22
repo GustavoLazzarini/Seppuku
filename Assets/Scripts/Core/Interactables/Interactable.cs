@@ -8,7 +8,6 @@ using UnityEngine.Localization;
 
 namespace Core.Interactables
 {
-    [RequireComponent(typeof(CubeCollider))]
     public abstract class Interactable : MonoBehaviour
     {
         protected bool _popupOnScreen;
