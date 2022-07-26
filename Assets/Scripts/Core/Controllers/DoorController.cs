@@ -49,7 +49,7 @@ namespace Core.Controllers
 #endif
         }
 
-        public void Open(bool slow = false)
+        public void Open(bool slow)
         {
             if (IsOpened) return;
 
@@ -57,13 +57,16 @@ namespace Core.Controllers
             gameObject.LerpPosition(this, _openedPosition, slow ? _slowOpenSpeed : _openSpeed);
         }
 
-        public void Close(bool slow = false)
+        public void Close(bool slow)
         {
             if (!IsOpened) return;
 
             IsOpened = false;
             gameObject.LerpPosition(this, _closedPosition, slow ? _slowOpenSpeed : _openSpeed);
         }
+
+        public void Open() => Open(false);
+        public void Close() => Close(false);
 
         public void Use(bool isOpened)
         {

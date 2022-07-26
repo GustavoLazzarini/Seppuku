@@ -52,6 +52,7 @@ namespace Scriptable.Entities
 		public float AirSpeedModifier => _airSpeedMod;
 		public float SlideSpeedModifier => _slideSpeedMod;
 		public float DashSpeed => _dashSpeed;
+		public float StaitJumpSpeed => _stairJumpSpeed;
 
 		public float AcelerationRate => _acelerationRate;
 		public float DeacelerationRate => _deacelerationRate;

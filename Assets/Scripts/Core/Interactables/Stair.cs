@@ -97,9 +97,10 @@ namespace Core.Interactables
             Debug.Log("t3");
 
             _moveVector = Vector2.zero;
+            Player.MoveVector = Vector2.zero;
 
             Player.StairImpulsing = true;
-            Player.SetVelocity(impulse * Player.JumpSpeed);
+            Player.SetVelocity(impulse * Player.StairJumpSpeed);
         
             Debug.Log("t4");
         }
@@ -119,6 +120,11 @@ namespace Core.Interactables
         public void SetActive(bool value, bool up = false, CubeCollider area = null)
         {
             if (value == Active) return;
+
+            Player.CanStairUp = true;
+            Player.CanStairDown = true;
+            Player.CanStairLeft = true;
+            Player.CanStairRight = true;
 
             if (!value)
             {
@@ -191,7 +197,11 @@ namespace Core.Interactables
             {
                 if (_moveVector.x < 0 && !InsideArea(_protagonist.LeftStair))
                 {
-                    if (_disableLeft) DisableWalk(new Vector3(1, 0));
+                    if (_disableLeft)
+                    {
+                        Player.CanStairLeft = false;
+                        Player.CanStairRight = true;
+                    }
                     else
                     {
                         SetActive(false);
@@ -200,17 +210,30 @@ namespace Core.Interactables
                 }
                 else if (_moveVector.x > 0 && !InsideArea(_protagonist.RightStair))
                 {
-                    if (_disableRight) DisableWalk(new Vector3(-1, 0));
+                    if (_disableRight)
+                    {
+                        Player.CanStairLeft = true;
+                        Player.CanStairRight = false;
+                    }
                     else
                     {
                         SetActive(false);
                         return;
                     }
                 }
-                
+                else
+                {
+                    Player.CanStairLeft = true;
+                    Player.CanStairRight = true;
+                }
+
                 if (_moveVector.y > 0 && !InsideArea(_protagonist.UpStair))
                 {
-                    if (_disableUp) DisableWalk(new Vector3(0, -1));
+                    if (_disableUp)
+                    {
+                        Player.CanStairUp = false;
+                        Player.CanStairDown = true;
+                    }
                     else
                     {
                         _protagonist.Set_Anim_FinishClimbing();
@@ -220,12 +243,21 @@ namespace Core.Interactables
                 }
                 else if (_moveVector.y < 0 && !InsideArea(_protagonist.DownStair))
                 {
-                    if (_disableDown) DisableWalk(new Vector3(0, 1));
+                    if (_disableDown)
+                    {
+                        Player.CanStairUp = true;
+                        Player.CanStairDown = false;
+                    }
                     else
                     {
                         SetActive(false);
                         return;
                     }
+                }
+                else
+                {
+                    Player.CanStairUp = true;
+                    Player.CanStairDown = true;
                 }
 
                 SetMoveVector(_protagonist.MoveVector);

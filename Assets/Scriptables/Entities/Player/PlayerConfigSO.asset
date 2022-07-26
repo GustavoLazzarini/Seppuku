@@ -26,6 +26,7 @@ MonoBehaviour:
   _airSpeedMod: 1.5
   _slideSpeedMod: 1.2
   _dashSpeed: 10
+  _stairJumpSpeed: 15
   _acelerationRate: 5
   _deacelerationRate: 5
   _crouchDeacelerationRate: 0.2

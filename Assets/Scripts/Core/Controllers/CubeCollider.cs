@@ -95,8 +95,6 @@ namespace Core.Controllers
 
         public void OnDrawGizmosSelected()
         {
-            Gizmosf.DrawSphere((transform.position + _offset - (Size / 2)), 0.1f, Color.white);
-
             Gizmosf.DrawCubeWithBorder(transform.position + _offset, Size, new Color(0, 1, 0, 0.13f), new Color(0, 1, 0, 1));
         }
     }

@@ -49,13 +49,14 @@ namespace Core.Entities
 
         public float RunSpeed => _config.RunSpeed;
         public float JumpSpeed => _config.JumpSpeed;
+        public float StairJumpSpeed => _config.StaitJumpSpeed;
 
         [HideInInspector] public bool IsMoving;
         [HideInInspector] public bool IsDashing;
         [HideInInspector] public bool IsRunning;
         [HideInInspector] public bool IsCrouching;
         [HideInInspector] public bool IsAttacking; 
-        public bool StairImpulsing;
+        [HideInInspector] public bool StairImpulsing;
         [HideInInspector] public bool IsAlive = true;
         [HideInInspector] public bool CanMove = true;
         [HideInInspector] public bool SlidingCompleted;
@@ -64,6 +65,11 @@ namespace Core.Entities
         [HideInInspector] public bool StopedDash;
         [HideInInspector] public bool PerformingDash;
         [HideInInspector] public Vector3 DashDirection;
+
+        [HideInInspector] public bool CanStairUp;
+        [HideInInspector] public bool CanStairDown;
+        [HideInInspector] public bool CanStairLeft;
+        [HideInInspector] public bool CanStairRight;
 
         public float RightAngle => MoveAxis switch
         {
@@ -302,7 +308,19 @@ namespace Core.Entities
                 return;
             }
 
-            if (MoveVector.magnitude <= 0.01f)
+            Vector3 m = MoveVector;
+
+            if (!CanStairUp && m.y > 0)
+                m.y = 0;
+            if (!CanStairDown && m.y < 0)
+                m.y = 0;
+
+            if (!CanStairLeft && m.x < 0)
+                m.x = 0;
+            if (!CanStairRight && m.x > 0)
+                m.x = 0;
+
+            if (m.magnitude <= 0.01f)
             {
                 StopMovement(Vector3.zero);
                 return;
@@ -311,8 +329,10 @@ namespace Core.Entities
             IsMoving = true;
             EAnimator.SetBool("IsWalking", true);
 
-            Vector3 vel = MoveVector * _config.ClimbSpeed;
+            Vector3 vel = m * _config.ClimbSpeed;
             if (vel.z == 0) vel.z = ERigidbody.velocity.z;
+
+            Debug.Log(m);
 
             SetVelocity(vel);
         }

@@ -19,7 +19,7 @@ namespace Util
             {
                 if (entity.MoveAxis == _moveAxis) return;
 
-                entity.MoveAxis = _moveAxis;
+                entity.SetMoveAxis(_moveAxis);
                 _onChangedAngle?.Invoke();
             }
         }
