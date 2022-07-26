@@ -21,7 +21,7 @@ MonoBehaviour:
   _walkSpeed: 2
   _climbSpeed: 1.7
   _crouchSpeed: 2
-  _runSpeed: 6
+  _runSpeed: 8
   _jumpSpeed: 10
   _airSpeedMod: 1.5
   _slideSpeedMod: 1.2

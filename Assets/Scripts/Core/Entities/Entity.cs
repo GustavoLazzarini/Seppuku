@@ -332,13 +332,62 @@ namespace Core.Entities
             Vector3 vel = m * _config.ClimbSpeed;
             if (vel.z == 0) vel.z = ERigidbody.velocity.z;
 
-            Debug.Log(m);
-
             SetVelocity(vel);
         }
         protected virtual void RunnerMovement()
         {
+            if (!IsAlive || !CanMove)
+            {
+                SetVelocity(Vector3.zero);
+                return;
+            }
 
+            if (MoveVector.magnitude <= 0.01f)
+            {
+                StopMovement();
+                return;
+            }
+
+            if (StopedDash && IsDashing && !PerformingDash)
+            {
+                Dash();
+                return;
+            }
+
+            if (PerformingDash)
+            {
+                Vector3 velocity = DashDirection * _config.DashSpeed;
+                Vector3 nv = transform.forward.Abs() * velocity.x;
+
+                Vector3 fv = nv;
+                if (fv.x == 0) fv.x = ERigidbody.velocity.x;
+                if (fv.z == 0) fv.z = ERigidbody.velocity.z;
+                fv.y = ERigidbody.velocity.y;
+
+                SetVelocity(fv);
+
+                return;
+            }
+
+            float speed;
+            float walkSpeed = (_config.WalkSpeed * (1 - AcelerationRate)) + (_config.RunSpeed * AcelerationRate);
+
+            if (IsCrouching && !SlidingCompleted) speed = walkSpeed * _config.SlideSpeedModifier;
+            else if (IsCrouching) speed = (_config.CrouchSpeed * (1 - AcelerationRate)) + (_config.RunSpeed * AcelerationRate);
+            else if (!IsGrounded) speed = walkSpeed * _config.AirSpeedModifier;
+            else speed = walkSpeed;
+
+            SetEuler();
+
+            IsMoving = true;
+            EAnimator.SetBool("IsWalking", true);
+
+            Vector3 vel = (speed * MoveVector).x * transform.forward.Abs();
+            if (vel.x == 0) vel.x = ERigidbody.velocity.x;
+            if (vel.z == 0) vel.z = ERigidbody.velocity.z;
+            vel.y = ERigidbody.velocity.y;
+
+            SetVelocity(vel);
         }
 
         protected virtual void Dash() { }
