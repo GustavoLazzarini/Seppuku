@@ -2,10 +2,11 @@
 
 using System;
 using UnityEngine;
+using Scriptable.Item;
 using Core.Controllers;
 using Scriptable.Entities;
-using System.Threading.Tasks;
 using Core.Interactables;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace Core.Entities
@@ -20,6 +21,8 @@ namespace Core.Entities
 
     public class Entity : MonoBehaviour
     {
+        [HideInInspector] public Dictionary<string, ItemSo> Inventory = new();
+
         [HideInInspector] public Collider ECollider;
         [HideInInspector] public Animator EAnimator;
         [HideInInspector] public Rigidbody ERigidbody;
@@ -330,6 +333,18 @@ namespace Core.Entities
             EAnimator.SetBool("IsWalking", true);
 
             Vector3 vel = m * _config.ClimbSpeed;
+
+            switch (MoveAxis)
+            {
+                case SnapAxis.Z:
+                    float x = vel.x;
+                    vel.x = vel.z;
+                    vel.z = x;
+                    break;
+
+                default: break;
+            }
+
             if (vel.z == 0) vel.z = ERigidbody.velocity.z;
 
             SetVelocity(vel);

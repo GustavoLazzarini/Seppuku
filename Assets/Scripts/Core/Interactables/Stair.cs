@@ -86,23 +86,15 @@ namespace Core.Interactables
         {
             Vector3 impulse = _moveVector.normalized;
 
-            Debug.Log("t1");
-
             SetActive(false);
-            
-            Debug.Log("t2");
 
             if (_moveVector.magnitude < 0.2f) return;
-
-            Debug.Log("t3");
 
             _moveVector = Vector2.zero;
             Player.MoveVector = Vector2.zero;
 
             Player.StairImpulsing = true;
             Player.SetVelocity(impulse * Player.StairJumpSpeed);
-        
-            Debug.Log("t4");
         }
 
         public void SetMoveVector(Vector2 value) => _moveVector = value;
@@ -131,18 +123,14 @@ namespace Core.Interactables
                 _enterTime = Time.unscaledTime + .5f;
                 switch (_axis)
                 {
-                    case SnapAxis.X:
-                        break;
-
-                    case SnapAxis.Z:
-
+                    case SnapAxis.X or SnapAxis.Z:
                         if (up)
                         {
-                            _protagonist.Lerp(_up.Position, new Vector3(0, 90, 0), 5, 0.1f, true, true);
+                            _protagonist.Lerp(_up.Position, new Vector3(0, Player.RightAngle, 0), 5, 0.1f, true, true);
                             break;
                         }
 
-                        _protagonist.LerpAxis(_axis, _down.Position.z, new Vector3(0, 90, 0), 5, 0.05f, true, true);
+                        _protagonist.LerpAxis(_axis, _down.Position.z, new Vector3(0, Player.RightAngle, 0), 5, 0.05f, true, true);
                         break;
 
                     default:
@@ -157,6 +145,7 @@ namespace Core.Interactables
             }
 
             if (Time.unscaledTime < _enterTime) return;
+            _enterTime = Time.unscaledTime + .5f;
 
             CubeCollider tArea = area ?? NearestArea();
 
@@ -169,7 +158,7 @@ namespace Core.Interactables
             {
                 case SnapAxis.X:
                     p.x = _insideBubble.Position.x;
-                    euler.y = (_protagonist.transform.position - transform.position).x < 0 ? 180 : 90;
+                    euler.y = (_protagonist.transform.position - transform.position).x < 0 ? 270 : 90;
                     break;
 
                 case SnapAxis.Y:
@@ -178,7 +167,7 @@ namespace Core.Interactables
 
                 case SnapAxis.Z:
                     p.z = _insideBubble.Position.z;
-                    euler.y = 0;
+                    euler.y = (_protagonist.transform.position - transform.position).z < 0 ? 180 : 0;
                     break;
             }
 
@@ -304,15 +293,13 @@ namespace Core.Interactables
             for (int i = 0; i < _areaColliders.Length; i++)
             {
                 float distance = (_areaColliders[i].Position - Player.transform.position).magnitude;
-                Debug.Log($"{i} - {distance}");
+
                 if (distance < minDistance)
                 {
                     index = i;
                     minDistance = distance;
                 }
             }
-
-            Debug.Log($"{index} {_areaColliders.Length}");
 
             return index < 0 ? null : _areaColliders[index];
         }
