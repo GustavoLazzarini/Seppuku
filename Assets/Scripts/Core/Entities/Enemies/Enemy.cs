@@ -99,7 +99,7 @@ namespace Core.Entities
 
         private void Update()
         {
-            if (!_walk || !IsAlive)
+            if (!_walk || !IsAlive || !CanMove)
             {
                 MoveVector = Vector3.zero;
                 return;

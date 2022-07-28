@@ -7,6 +7,7 @@ using Core.Entities;
 using Core.Controllers;
 using Scriptable.Generic;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace Core.Interactables
 {
@@ -26,6 +27,9 @@ namespace Core.Interactables
         
         [Space]
         [SerializeField] private SnapAxis _axis;
+        [SerializeField] private bool _flipEuler;
+
+        [Space]
         [SerializeField] private GameObject _area;
         [SerializeField] private Bubble _up, _down, _insideBubble;
 
@@ -34,6 +38,11 @@ namespace Core.Interactables
         [SerializeField] private bool _disableDown;
         [SerializeField] private bool _disableLeft;
         [SerializeField] private bool _disableRight;
+
+        [Space]
+        [SerializeField] private UnityEvent _onEnter;
+        [Space]
+        [SerializeField] private UnityEvent _onExit;
 
         protected override void OnEnable()
         {
@@ -140,6 +149,7 @@ namespace Core.Interactables
 
                 _protagonist.CurrentStair = null;
                 _protagonist.SetMoveStage(MoveStage.Walk);
+                _onExit?.Invoke();
 
                 return;
             }
@@ -158,7 +168,7 @@ namespace Core.Interactables
             {
                 case SnapAxis.X:
                     p.x = _insideBubble.Position.x;
-                    euler.y = (_protagonist.transform.position - transform.position).x < 0 ? 270 : 90;
+                    euler.y = _flipEuler ? 270 : 90;
                     break;
 
                 case SnapAxis.Y:
@@ -167,7 +177,7 @@ namespace Core.Interactables
 
                 case SnapAxis.Z:
                     p.z = _insideBubble.Position.z;
-                    euler.y = (_protagonist.transform.position - transform.position).z < 0 ? 180 : 0;
+                    euler.y = _flipEuler ? 180 : 0;
                     break;
             }
 
@@ -178,6 +188,7 @@ namespace Core.Interactables
             });
 
             _protagonist.SetMoveStage(MoveStage.Climb);
+            _onEnter?.Invoke();
         }
 
         protected override void Update()

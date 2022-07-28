@@ -1,8 +1,10 @@
 //Copyright Galactspace Studio
 
-using Core.Entities;
 using System;
 using UnityEngine;
+using Core.Entities;
+
+using URandom = UnityEngine.Random;
 
 namespace Core.Controllers
 {
@@ -33,8 +35,14 @@ namespace Core.Controllers
         public event Action OnExit;
 
         public Vector3 Offset => _offset;
-        public Vector3 Position => transform.position + _offset;
-        public Vector3 Size => new(transform.lossyScale.x * _size.x, transform.lossyScale.y * _size.y, transform.lossyScale.z * _size.z);
+        public Vector3 Size => Vector3.Scale(transform.lossyScale, _size);
+        public Vector3 Position => transform.localToWorldMatrix.MultiplyPoint3x4(_offset);
+
+        public Vector3 LocalMax => transform.localToWorldMatrix.MultiplyPoint3x4(_offset + (_size / 2));
+        public Vector3 LocalMin => transform.localToWorldMatrix.MultiplyPoint3x4(_offset - (_size / 2));
+
+        private Vector3 WorldMin => _offset - (_size / 2);
+        private Vector3 WorldMax => _offset + (_size / 2);
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -48,6 +56,22 @@ namespace Core.Controllers
             if (_trackObject != null) InsideTrigger = InsideCollider(_trackObject.position);
         }
 
+        public Vector3 RandomPos()
+        {
+            float borderLeft = Mathf.Min(LocalMin.x, LocalMax.x);
+            float borderRight = Mathf.Max(LocalMin.x, LocalMax.x);
+
+            float borderTop = Mathf.Max(LocalMin.y, LocalMax.y);
+            float borderBottom = Mathf.Min(LocalMin.y, LocalMax.y);
+
+            float borderFront = MathF.Min(LocalMin.z, LocalMax.z);
+            float borderBack = MathF.Max(LocalMin.z, LocalMax.z);
+
+            return new(URandom.Range(borderLeft, borderRight),
+                URandom.Range(borderBottom, borderTop),
+                URandom.Range(borderBack, borderFront));
+        }
+
         public void SetBounds(Vector3 offset, Vector3 size)
         {
             _size = size;
@@ -56,22 +80,20 @@ namespace Core.Controllers
 
         public bool InsideCollider(Vector3 position)
         {
-            float x = position.x;
-            float y = position.y;
-            float z = position.z;
+            Vector3 pos = transform.worldToLocalMatrix.MultiplyPoint3x4(position);
 
-            Vector3 pos = transform.position + _offset;
+            float x = pos.x;
+            float y = pos.y;
+            float z = pos.z;
 
-            Vector3 size = new Vector3(transform.lossyScale.x * _size.x, transform.lossyScale.y * _size.y, transform.lossyScale.z * _size.z);
+            float borderLeft = WorldMin.x;
+            float borderRight = WorldMax.x;
 
-            float borderLeft = pos.x - (size.x / 2);
-            float borderRight = pos.x + (size.x / 2);
+            float borderTop = WorldMax.y;
+            float borderBottom = WorldMin.y;
 
-            float borderTop = pos.y + (size.y / 2);
-            float borderBottom = pos.y - (size.y / 2);
-
-            float borderFront = pos.z - (size.z / 2);
-            float borderBack = pos.z + (size.z / 2);
+            float borderFront = WorldMin.z;
+            float borderBack = WorldMax.z;
 
             if (!(x > borderLeft && x < borderRight)) return false;
             if (!(y > borderBottom && y < borderTop)) return false;
@@ -84,18 +106,18 @@ namespace Core.Controllers
         {
             Vector3 p = new();
 
-            Vector3 colCenter = transform.position + _offset;
-            
-            p.x = Mathf.Clamp(pos.x, colCenter.x - (Size.x / 2) + 0.3f, colCenter.x + (Size.x / 2) - 0.3f);
-            p.y = Mathf.Clamp(pos.y, colCenter.y - (Size.y / 2) + 0.3f, colCenter.y + (Size.y / 2) - 0.3f);
-            p.z = Mathf.Clamp(pos.z, colCenter.z - (Size.z / 2) + 0.3f, colCenter.z + (Size.z / 2) - 0.3f);
+            pos = transform.worldToLocalMatrix.MultiplyPoint3x4(pos);
 
-            return p;
+            p.x = Mathf.Clamp(pos.x, WorldMin.x + 0.3f, WorldMax.x - 0.3f);
+            p.y = Mathf.Clamp(pos.y, WorldMin.y + 0.3f, WorldMax.y - 0.3f);
+            p.z = Mathf.Clamp(pos.z, WorldMin.z + 0.3f, WorldMax.z - 0.3f);
+
+            return transform.localToWorldMatrix.MultiplyPoint3x4(p);
         }
 
         public void OnDrawGizmosSelected()
         {
-            Gizmosf.DrawCubeWithBorder(transform.position + _offset, Size, new Color(0, 1, 0, 0.13f), new Color(0, 1, 0, 1));
+            Gizmosf.DrawCubeWithBorder(_offset, _size, new Color(0, 1, 0, 0.13f), new Color(0, 1, 0, 1), transform.localToWorldMatrix);
         }
     }
 }

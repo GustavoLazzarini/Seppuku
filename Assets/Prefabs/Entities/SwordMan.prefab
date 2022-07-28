@@ -1034,11 +1034,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b981d7abf835c424cb89b29dcde64193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentStair: {fileID: 0}
-  EntityMoveStage: 1
-  _drawGizmos: 0
-  configuration: {fileID: 11400000, guid: 44bd1d9bd74f5754088407de0b0b2c63, type: 2}
-  _rightAngle: 90
+  ECollider: {fileID: 0}
+  EAnimator: {fileID: 0}
+  ERigidbody: {fileID: 0}
+  _forces: []
+  Euler: {x: 0, y: 0, z: 0}
+  LastLerp: {x: 0, y: 0, z: 0}
+  MoveVector: {x: 0, y: 0, z: 0}
+  AcelerationRate: 0
+  MoveAxis: 0
+  CStair: {fileID: 0}
+  EMoveStage: 0
+  CurrentLife: 0
+  IsMoving: 0
+  IsDashing: 0
+  IsRunning: 0
+  IsCrouching: 0
+  IsAttacking: 0
+  StairImpulsing: 0
+  IsAlive: 1
+  CanMove: 1
+  SlidingCompleted: 0
+  IsGrounded: 1
+  StopedDash: 0
+  PerformingDash: 0
+  DashDirection: {x: 0, y: 0, z: 0}
+  CanStairUp: 0
+  CanStairDown: 0
+  CanStairLeft: 0
+  CanStairRight: 0
+  _config: {fileID: 11400000, guid: 074b87a71dcfede418739d13952950a7, type: 2}
   _walk: 1
   _moveRect:
     m_Center: {x: 34.8, y: -0.781, z: -3.61}
@@ -1168,7 +1193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5d39b082d68ff479d5674ce0f0bc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
+  _enemy: {fileID: 3060680922394446078}
   _killOffset: {x: 0, y: 0, z: -0.71}
 --- !u!1 &3240429803713815224
 GameObject:
@@ -3575,7 +3600,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _enemy
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3060680922394446078}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f03602af9078164785ca49effa426f4, type: 3}
 --- !u!4 &4375237094422986392 stripped

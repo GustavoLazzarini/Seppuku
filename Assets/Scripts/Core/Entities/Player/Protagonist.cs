@@ -340,6 +340,11 @@ namespace Core.Entities
             CanMove = true;
         }
         
+        public void Test()
+        {
+            Debug.LogWarning("Entered!");
+        }
+
         private void OnDrawGizmosSelected()
         {
             Gizmosf.DrawCubeWithBorder(transform.position + _groundOffset, _groundSize, new Color(0, 1, 0, 0.1f), new Color(0, 1, 0, 1));

@@ -54,6 +54,21 @@ namespace UnityEngine
 #endif            
         }
 
+        public static void DrawCubeWithBorder(Vector3 position, Vector3 size, Color color, Color border, Matrix4x4 matrix)
+        {
+#if UNITY_EDITOR
+            Matrix4x4 m = Gizmos.matrix;
+            Gizmos.matrix = matrix;
+
+            Gizmos.color = color;
+            Gizmos.DrawCube(position, size);
+            Gizmos.color = border;
+            Gizmos.DrawWireCube(position, size);
+
+            Gizmos.matrix = m;
+#endif            
+        }
+
         public static void DrawLine(Vector3 start, Vector3 end, Color color, float thickness)
         {
 #if UNITY_EDITOR

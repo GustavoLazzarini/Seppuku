@@ -9,11 +9,11 @@ namespace Core.Interactables
     {
         private Animator _animator;
 
-        private bool _isOn;
+        protected bool _isOn;
         public bool IsOn => _isOn;
 
         [Space]
-        [SerializeField] private UnityEvent<bool> _onSwitch;
+        [SerializeField] protected UnityEvent<bool> _onSwitch;
 
         protected override void Awake()
         {

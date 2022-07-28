@@ -21,7 +21,7 @@ namespace Core.Entities
 
     public class Entity : MonoBehaviour
     {
-        [HideInInspector] public Dictionary<string, ItemSo> Inventory = new();
+        public Inventory Inventory = new();
 
         [HideInInspector] public Collider ECollider;
         [HideInInspector] public Animator EAnimator;

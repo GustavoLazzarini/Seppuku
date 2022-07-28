@@ -1,17 +1,18 @@
-//Copyright Galactspace 2022
+//Created by Galactspace
 
 using UnityEngine;
 using Core.Entities;
 using Core.Attributes;
 using UnityEngine.UIElements;
+using Scriptable.Item;
 
 namespace Core.Controllers.UI
 {
-    public class DoorMinigame : UIController
+    public class Pickpocket : UIController
     {
         private float _curGreenArea;
         private float CurGreenArea
-        { 
+        {
             get => _curGreenArea;
             set
             {
@@ -25,7 +26,7 @@ namespace Core.Controllers.UI
 
         private float _curSpeed;
         private float _curPos;
-        
+
         private VisualElement _stick;
         private VisualElement _greenArea;
         private VisualElement _backgroundArea;
@@ -44,7 +45,7 @@ namespace Core.Controllers.UI
         [SerializeField] private float _speed;
 
         [Space]
-        [SerializeField] private GameObject _door;
+        [SerializeField] private ItemSo[] _items;
 
         [Space]
         [SerializeField][Button] private bool _randomizeArea;
@@ -118,15 +119,10 @@ namespace Core.Controllers.UI
         private void Completed()
         {
             _completed = true;
-            _door.LerpRotation(this, new Vector3(_door.transform.localEulerAngles.x, 100, _door.transform.localEulerAngles.z), 3f);
-
-            Routinef.Invoke(() => {
-                Player.enabled = true;
-                Player.gameObject.LerpPosition(this, new Vector3(Player.transform.position.x, Player.transform.position.y, -3.557f), 10f, 0.1f);
-                Player.gameObject.LerpRotation(this, new Vector3(0, 90, 0), 10f, 0.1f);
-            }, 1, this);
-
             GetComponent<UIDocument>().rootVisualElement.style.opacity = 0;
+
+            for (int i = 0; i < _items.Length; i++)
+                Player.Inventory.Add(_items[i]);
 
             Destroy(gameObject, 20);
         }

@@ -12,7 +12,19 @@ namespace Core.Entities
         [SerializeField] private bool _lookUseMatrix;
         [SerializeField] private Vector3 _lookOffset;
 
+        [Space]
+        [SerializeField] private EnemyVision _shortVision;
+        [SerializeField] private EnemyVision _longVision;
+
         private Vector3 LookPosition => !_lookUseMatrix ? transform.position + _lookOffset : transform.localToWorldMatrix.MultiplyPoint3x4(_lookOffset);
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _shortVision.gameObject.SetActive(true);
+            _longVision.gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
@@ -39,7 +51,6 @@ namespace Core.Entities
 
             if (_walkPositions[_walkIndex].LookDown)
 
-
             Routinef.Cooldown(x =>
             {
                 CanMove = x;
@@ -55,11 +66,22 @@ namespace Core.Entities
                     _ => throw new System.Exception("Look offset is strange")
                 };
 
-                if (x) Lerp(_walkPositions[lastWalk].Position);
-                else Lerp(LookPosition);
+                if (x)
+                {
+                    Lerp(_walkPositions[lastWalk].Position, new Vector3(0, RightAngle, 0));
+                    CanMove = true;
 
-                SetEuler(new Vector3(0, !x ? lookAngle : RightAngle, 0));
+                    _shortVision.gameObject.SetActive(true);
+                    _longVision.gameObject.SetActive(false);
+                }
+                else
+                {
+                    Lerp(LookPosition, new Vector3(0, lookAngle, 0));
+                    CanMove = false;
 
+                    _shortVision.gameObject.SetActive(false);
+                    _longVision.gameObject.SetActive(true);
+                }
             }, 5, this);
         }
 
