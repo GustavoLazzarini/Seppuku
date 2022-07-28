@@ -8,6 +8,7 @@ namespace Util
 {
     public class EntityRotationChanger : MonoBehaviour
     {
+        [SerializeField] private bool _mirror;
         [SerializeField] private SnapAxis _moveAxis;
 
         [Space]
@@ -19,7 +20,7 @@ namespace Util
             {
                 if (entity.MoveAxis == _moveAxis) return;
 
-                entity.SetMoveAxis(_moveAxis);
+                entity.SetMoveAxis(_moveAxis, _mirror);
                 _onChangedAngle?.Invoke();
             }
         }

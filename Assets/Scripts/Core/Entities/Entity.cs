@@ -38,6 +38,7 @@ namespace Core.Entities
 
         [HideInInspector] public float AcelerationRate;
         public SnapAxis MoveAxis;
+        public bool MirrorAxis;
 
         [HideInInspector] public Stair CStair;
 
@@ -76,8 +77,8 @@ namespace Core.Entities
 
         public float RightAngle => MoveAxis switch
         {
-            SnapAxis.X => 90,
-            SnapAxis.Z => 0,
+            SnapAxis.X => MirrorAxis ? 270 : 90,
+            SnapAxis.Z => MirrorAxis ? 180 : 0,
             _ => throw new NotImplementedException()
         };
 
@@ -129,7 +130,7 @@ namespace Core.Entities
             EAnimator = GetComponent<Animator>();
             ERigidbody = GetComponent<Rigidbody>();
 
-            SetMoveAxis(MoveAxis);
+            SetMoveAxis(MoveAxis, MirrorAxis);
             SetMoveStage(EMoveStage, true);
         }
         protected void FixedUpdate()
@@ -296,7 +297,11 @@ namespace Core.Entities
             IsMoving = true;
             EAnimator.SetBool("IsWalking", true);
 
-            Vector3 vel = (speed * MoveVector).x * transform.forward.Abs();
+            float x = (speed * MoveVector).x;
+            if (MirrorAxis) x *= -1;
+
+            Vector3 vel = x * transform.forward.Abs();
+            
             if (vel.x == 0) vel.x = ERigidbody.velocity.x;
             if (vel.z == 0) vel.z = ERigidbody.velocity.z;
             vel.y = ERigidbody.velocity.y;
@@ -333,6 +338,7 @@ namespace Core.Entities
             EAnimator.SetBool("IsWalking", true);
 
             Vector3 vel = m * _config.ClimbSpeed;
+            if (MirrorAxis) vel.x *= -1;
 
             switch (MoveAxis)
             {
@@ -445,9 +451,11 @@ namespace Core.Entities
         }
         protected virtual void OnDeath() { }
         
-        public void SetMoveAxis(SnapAxis axis)
+        public void SetMoveAxis(SnapAxis axis, bool mirror)
         {
             MoveAxis = axis;
+            MirrorAxis = mirror;
+            
             switch (MoveAxis)
             {
                 case SnapAxis.X:
@@ -471,7 +479,7 @@ namespace Core.Entities
         {
             if (!euler.HasValue)
             {
-                float y = MoveVector.x < 0 || (MoveVector.x == 0 && Euler.y == (RightAngle + 180)) ? (RightAngle + 180) : RightAngle;
+                float y = MoveVector.x < 0 || (MoveVector.x == 0 && Euler.y == Mathf.Repeat(RightAngle + 180, 359)) ? Mathf.Repeat(RightAngle + 180, 359) : RightAngle;
                 SetEuler(new Vector3(0, y, 0));
                 return;
             }
