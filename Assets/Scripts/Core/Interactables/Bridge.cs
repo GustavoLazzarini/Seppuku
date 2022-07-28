@@ -7,6 +7,7 @@ namespace Core.Interactables
 {
     public class Bridge : MonoBehaviour
     {
+        public bool IsEnabled;
         [SerializeField] private float _enableSpeed;
 
         [Space]
@@ -15,6 +16,11 @@ namespace Core.Interactables
 
         [Space]
         [SerializeField] private UnityEvent<bool> onEnable;
+
+        private void Awake()
+        {
+            Enable(IsEnabled);
+        }
 
         public void Enable(bool value)
         {

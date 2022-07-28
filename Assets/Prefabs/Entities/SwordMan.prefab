@@ -1042,9 +1042,10 @@ MonoBehaviour:
   LastLerp: {x: 0, y: 0, z: 0}
   MoveVector: {x: 0, y: 0, z: 0}
   AcelerationRate: 0
-  MoveAxis: 0
+  MoveAxis: 1
+  MirrorAxis: 0
   CStair: {fileID: 0}
-  EMoveStage: 0
+  EMoveStage: 1
   CurrentLife: 0
   IsMoving: 0
   IsDashing: 0

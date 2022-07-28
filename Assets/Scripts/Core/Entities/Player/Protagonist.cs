@@ -266,7 +266,7 @@ namespace Core.Entities
                 Routinef.Invoke(IsGroundCheck, 0.01f, this);
             }
         }
-        private void IsGroundCheck()
+        public void IsGroundCheck()
         {
             Routinef.LoopWhile(() =>
             {

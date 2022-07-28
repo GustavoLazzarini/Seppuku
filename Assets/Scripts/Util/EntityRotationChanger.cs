@@ -12,7 +12,7 @@ namespace Util
         [SerializeField] private SnapAxis _moveAxis;
 
         [Space]
-        [SerializeField] private UnityEvent _onChangedAngle;
+        [SerializeField] private UnityEvent<SnapAxis, bool> _onChangedAngle;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -21,7 +21,7 @@ namespace Util
                 if (entity.MoveAxis == _moveAxis) return;
 
                 entity.SetMoveAxis(_moveAxis, _mirror);
-                _onChangedAngle?.Invoke();
+                _onChangedAngle?.Invoke(_moveAxis, _mirror);
             }
         }
     }

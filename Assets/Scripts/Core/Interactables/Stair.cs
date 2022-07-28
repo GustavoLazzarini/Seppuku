@@ -62,6 +62,8 @@ namespace Core.Interactables
         {
             base.Awake();
 
+            _enterTime = Time.time;
+
             if (_axis != SnapAxis.X && _axis != SnapAxis.Z)
             {
                 Debug.LogError("Stair axis need to be X or Z");
@@ -188,6 +190,8 @@ namespace Core.Interactables
             });
 
             _protagonist.SetMoveStage(MoveStage.Climb);
+            _protagonist.IsGroundCheck();
+
             _onEnter?.Invoke();
         }
 
