@@ -25,7 +25,18 @@ namespace Core.Controllers
         [SerializeField] private ChannelSo _rightChannel;
 
         [Space]
+        [SerializeField] private bool _mirror;
+        [SerializeField] private SnapAxis _axis;
+
+        [Space]
         [SerializeField, Button] private bool _createBubbles;
+
+        private float GetAngle(bool backwards) => _axis switch
+        {
+            SnapAxis.X => _mirror ? backwards ? 0 : 180 : backwards ? 180 : 0,
+            SnapAxis.Z => _mirror ? backwards ? 0 : 270 : backwards ? 270 : 90,
+            _ => throw new NotImplementedException()
+        };
 
         private void OnValidate()
         {
@@ -75,25 +86,25 @@ namespace Core.Controllers
         private void OnUp()
         {
             if (!CanInteract || PlayerNearestBubble.Up == null) return;
-            Interact(PlayerNearestBubble.Up, new Vector3(0, 0, 0));
+            Interact(PlayerNearestBubble.Up, new Vector3(0, GetAngle(false), 0));
         }
 
         private void OnDown()
         {
             if (!CanInteract || PlayerNearestBubble.Down == null) return;
-            Interact(PlayerNearestBubble.Up, new Vector3(0, 180, 0));
+            Interact(PlayerNearestBubble.Up, new Vector3(0, GetAngle(true), 0));
         }
 
         private void OnLeft()
         {
             if (!CanInteract || PlayerNearestBubble.Left == null) return;
-            Interact(PlayerNearestBubble.Up, new Vector3(0, 270, 0));
+            Interact(PlayerNearestBubble.Up, new Vector3(0, GetAngle(true), 0));
         }
 
         private void OnRight()
         {
             if (!CanInteract || PlayerNearestBubble.Right == null) return;
-            Interact(PlayerNearestBubble.Up, new Vector3(0, 90, 0));
+            Interact(PlayerNearestBubble.Up, new Vector3(0, GetAngle(false), 0));
         }
 
         protected void Interact(Bubble b, Vector3 euler)
