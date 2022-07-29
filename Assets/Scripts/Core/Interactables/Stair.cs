@@ -96,6 +96,8 @@ namespace Core.Interactables
         public void JumpInside()
         {
             Vector3 impulse = _moveVector.normalized;
+            if (Player.MirrorAxis) impulse.x *= -1;
+
             if (_axis == SnapAxis.X)
             {
                 var x = impulse.x;
