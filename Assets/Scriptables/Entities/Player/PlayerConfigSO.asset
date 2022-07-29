@@ -15,7 +15,7 @@ MonoBehaviour:
   _impulseChannel: {fileID: 11400000, guid: cc044d8f7db51f24b8520daf2a8ce27a, type: 2}
   _damagePlayerChannel: {fileID: 0}
   _playerPosChannel: {fileID: 11400000, guid: b0424213846885a40994ecd631d37a91, type: 2}
-  _maxLife: 10
+  _maxLife: 100
   _damageAbsorsion: 1
   _maxStamina: 100
   _walkSpeed: 2

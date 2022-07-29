@@ -96,6 +96,12 @@ namespace Core.Interactables
         public void JumpInside()
         {
             Vector3 impulse = _moveVector.normalized;
+            if (_axis == SnapAxis.X)
+            {
+                var x = impulse.x;
+                impulse.x = impulse.z;
+                impulse.z = x;
+            }
 
             SetActive(false);
 
@@ -134,7 +140,16 @@ namespace Core.Interactables
                 _enterTime = Time.unscaledTime + .5f;
                 switch (_axis)
                 {
-                    case SnapAxis.X or SnapAxis.Z:
+                    case SnapAxis.X:
+                        if (up)
+                        {
+                            _protagonist.Lerp(_up.Position, new Vector3(0, Player.RightAngle, 0), 5, 0.1f, true, true);
+                            break;
+                        }
+
+                        _protagonist.LerpAxis(_axis, _down.Position.x, new Vector3(0, Player.RightAngle, 0), 5, 0.05f, true, true);
+                        break;
+                    case SnapAxis.Z:
                         if (up)
                         {
                             _protagonist.Lerp(_up.Position, new Vector3(0, Player.RightAngle, 0), 5, 0.1f, true, true);

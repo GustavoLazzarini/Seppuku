@@ -26,6 +26,7 @@ MonoBehaviour:
   _airSpeedMod: 1.1
   _slideSpeedMod: 1.1
   _dashSpeed: 5
+  _stairJumpSpeed: 15
   _acelerationRate: 0
   _deacelerationRate: 0
   _crouchDeacelerationRate: 0
@@ -34,7 +35,7 @@ MonoBehaviour:
   _waypointDistance: 1
   _stopWalkDistance: 0.68
   _shootDistance: 0
-  _collisionDamage: 10
+  _collisionDamage: 0
   _collisionDistance: 1.07
   _collisionOffset: {x: 0, y: 0.85, z: 0.86}
   _reactionSpace: 0

@@ -90,6 +90,7 @@ namespace Core.Entities
         public void SetVelocity(Vector3 value)
         {
             ERigidbody.velocity = Vector3.zero;
+
             ERigidbody.velocity = GetForces() + value;
         }
         public void EnablePhysics(bool? gravity, bool? collision)
@@ -589,7 +590,6 @@ namespace Core.Entities
                 _ => throw new NotImplementedException(),
             }, Time.fixedDeltaTime, this, () =>
             {
-                Debug.Log("Completed");
                 onCompleted?.Invoke();
                 if (stopMove) CanMove = true;
                 if (enablePhysics) EnablePhysics(true, true);

@@ -13,16 +13,15 @@ namespace Core.Entities
         [System.Serializable]
         protected struct MovePoint
         {
+            public bool MirrorAxis;
+            public SnapAxis Axis;
+
+            [Space]
             public bool Relax;
             public bool LookDown;
-            public Vector3 Position;
 
-            public MovePoint(bool relax, bool lookDown, Vector3 position)
-            {
-                Relax = relax;
-                LookDown = lookDown;
-                Position = position;
-            }
+            [Space]
+            public Vector3 Position;
         }
 
         protected EntityPathfinder _ai;
@@ -31,6 +30,7 @@ namespace Core.Entities
 
         protected bool _freeWalk;
         protected int _walkIndex;
+        protected int _lastWalk;
         protected float _updateTime;
 
         protected Vector3 CollisionPosition => transform.localToWorldMatrix.MultiplyPoint3x4(EnemyConfig.CollisionOffset);
@@ -67,7 +67,7 @@ namespace Core.Entities
         {
             base.Awake();
             _entityCollider = GetComponent<Collider>();
-            _ai = new EntityPathfinder((EnemyConfigurationSo)_config, GetComponent<Seeker>(), ERigidbody, RightAngle);
+            _ai = new EntityPathfinder((EnemyConfigurationSo)_config, GetComponent<Seeker>(), ERigidbody, this);
 
             if (_walkPositions.Length == 0)
             {
@@ -81,6 +81,7 @@ namespace Core.Entities
 
         private void Start()
         {
+            _lastWalk = _walkIndex;
             SetMoveStage(MoveStage.Walk);
         }
 
@@ -106,27 +107,23 @@ namespace Core.Entities
             }
 
             if (_ai.CompletedPath && _updateTime < 0)
-                _updateTime = Time.time + EnemyConfig.RelaxTime;
+                _updateTime = Time.time + (_walkPositions[_lastWalk].Relax || _walkPositions[_lastWalk].LookDown ? EnemyConfig.RelaxTime : 0);
 
             CreatePath();
 
-            MoveVector = RightAngle switch
+            MoveVector = MoveAxis switch
             {
-                0 => new Vector3(0, 0, _ai.WalkVector.z),
-                90 => new Vector3(_ai.WalkVector.x, 0, 0),
+                SnapAxis.X => new(_ai.WalkVector.x, 0, 0),
+                SnapAxis.Z => new(_ai.WalkVector.z, 0, 0),
                 _ => throw new System.Exception("Right angle is strange (use 90 or 0)")
             };
+
             _ai.Tick();
 
             if (!IsAttacking && (Player.transform.position - CollisionPosition).magnitude < EnemyConfig.CollisionDistance)
             {
                 Attack();
             }
-
-            //if (_ai.CompletedPath && Time.time < _updateTime)
-            //{
-            //    MoveVector = Vector3.zero;
-            //}
         }
 
         private void CreatePath()
@@ -161,9 +158,12 @@ namespace Core.Entities
             Vector3 pos = _walkPositions[_walkIndex].Position;
             if (Vector3.Distance(transform.position, pos) <= EnemyConfig.StopWalkDistance + 0.5f)
             {
-                _walkIndex++;
-                if (_walkIndex >= _walkPositions.Length) _walkIndex = 0;
+                _lastWalk = _walkIndex;
+                _walkIndex = (int)Mathf.Repeat(_walkIndex + 1, _walkPositions.Length);
+                
                 pos = _walkPositions[_walkIndex].Position;
+
+                SetMoveAxis(_walkPositions[_walkIndex].Axis, _walkPositions[_walkIndex].MirrorAxis);
             }
 
             return pos;

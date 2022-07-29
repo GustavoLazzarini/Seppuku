@@ -16,6 +16,8 @@ namespace Core.Controllers
         [SerializeField] private CubeCollider _endCol;
 
         [Space]
+        [SerializeField] private UnityEvent _onStart;
+        [Space]
         [SerializeField] private UnityEvent _onCompleted;
 
         private void Awake()
@@ -45,6 +47,8 @@ namespace Core.Controllers
 
             _startCol.OnEnter -= StartMinigame;
             _endCol.OnEnter += EndMinigame;
+
+            _onStart?.Invoke();
         }
 
         private void EndMinigame()

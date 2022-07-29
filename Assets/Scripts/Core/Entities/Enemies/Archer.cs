@@ -49,7 +49,7 @@ namespace Core.Entities
             _walkIndex++;
             if (_walkIndex >= _walkPositions.Length) _walkIndex = 0;
 
-            if (_walkPositions[_walkIndex].LookDown)
+            if (!_walkPositions[lastWalk].LookDown) return;
 
             Routinef.Cooldown(x =>
             {
@@ -92,28 +92,7 @@ namespace Core.Entities
 
             Vector3 pos = _walkPositions[_walkIndex].Position;
 
-            /*
-            Vector3 relativePos = RightAngle switch
-            {
-                0 => new Vector3(_lookPositions[_walkIndex].x, _lookPositions[_walkIndex].y, transform.position.z),
-                90 => new Vector3(transform.position.x, _lookPositions[_walkIndex].y, _lookPositions[_walkIndex].z),
-                _ => throw new System.Exception("Right angle is not perpendicular to axis"),
-            };
-
-            if (Vector3.Distance(relativePos, pos) <= EnemyConfig.StopWalkDistance + 0.1f)
-            {
-                _walkIndex++;
-                if (_walkIndex >= _lookPositions.Length) _walkIndex = 0;
-                pos = _lookPositions[_walkIndex];
-
-                Routinef.Cooldown(x =>
-                {
-                    CanMove = x;
-                    _isLookingDown = !x;
-                    _entityAnimator.SetBool("LookingDown", !x);
-                }, 5, this);
-            }
-            */
+            SetMoveAxis(_walkPositions[_walkIndex].Axis, _walkPositions[_walkIndex].MirrorAxis);
 
             return pos;
         }

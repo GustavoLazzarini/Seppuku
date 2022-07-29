@@ -57,5 +57,10 @@ namespace Core.Controllers
                 }
             }
         }
+
+        public void AutoSpawn(bool value)
+        {
+            _autoSpawn = value;
+        }
     }
 }

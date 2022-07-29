@@ -9,13 +9,13 @@ namespace Core.Entities
 {
     public class EntityPathfinder
     {
+        private Entity _entity;
         private Seeker _seeker;
         private Rigidbody _rigidbody;
 
         private float _nextUpdate;
         private float _targetStopWalk;
 
-        private float _rightAngle;
         private float _updateRate;
         private float _stopWalkDistance;
         private float _nextWaypointDistance;
@@ -52,10 +52,10 @@ namespace Core.Entities
             }
         }
 
-        public Vector3 PathPosition => _path == null || CompletedPath ? _rigidbody.position : _rightAngle switch
+        public Vector3 PathPosition => _path == null || CompletedPath ? _rigidbody.position : _entity.MoveAxis switch
         {
-            0 => new Vector3(_rigidbody.position.x, _rigidbody.position.y, _path.vectorPath[_waypointIndex].z),
-            90 => new Vector3(_path.vectorPath[_waypointIndex].x, _rigidbody.position.y, _rigidbody.position.z),
+            SnapAxis.X => new Vector3(_path.vectorPath[_waypointIndex].x, _rigidbody.position.y, _rigidbody.position.z),
+            SnapAxis.Z => new Vector3(_rigidbody.position.x, _rigidbody.position.y, _path.vectorPath[_waypointIndex].z),
             _ => throw new System.Exception("Right angle should be 0 or 90")
         };
 
@@ -66,16 +66,15 @@ namespace Core.Entities
 
         public bool HasPath => _path != null;
 
-        public EntityPathfinder(EnemyConfigurationSo config, Seeker seeker, Rigidbody rigidbody, float rightAngle)
+        public EntityPathfinder(EnemyConfigurationSo config, Seeker seeker, Rigidbody rigidbody, Entity entity)
         {
+            _entity = entity;
             _seeker = seeker;
             _rigidbody = rigidbody;
 
             _updateRate = config.PathUpdateRate;
             _stopWalkDistance = config.StopWalkDistance;
             _nextWaypointDistance = config.WaypointDistance;
-
-            _rightAngle = rightAngle;
         }
 
         public void SetupPath(Vector3 position, float stopWalk = -1, bool overwrite = false)

@@ -1064,7 +1064,7 @@ MonoBehaviour:
   CanStairDown: 0
   CanStairLeft: 0
   CanStairRight: 0
-  _config: {fileID: 11400000, guid: 074b87a71dcfede418739d13952950a7, type: 2}
+  _config: {fileID: 11400000, guid: 44bd1d9bd74f5754088407de0b0b2c63, type: 2}
   _walk: 1
   _moveRect:
     m_Center: {x: 34.8, y: -0.781, z: -3.61}
